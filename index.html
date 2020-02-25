@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Today's List</title>
+  <link rel="shortcut icon" href="images/favicon.png">
+  <!-- link do favicon: https://icons8.com/icons/set/list--v1 -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="cabecalho">
+      <div class="titulo">
+        <p>Today's Schedule</p>
+      </div>
+    </div>
+  </header>
+
+  <input type="checkbox" id="check">
+   <label for="check" class="check">
+      <img src="images/menu.png" alt="menu" class="menu">
+      <!-- icon's link https://www.flaticon.com/authors/pixel-perfect | https://www.flaticon.com/-->
+   </label>
+
+  <nav>
+    <label for="todays-schedule">Today's Schedule</label>
+    <label for="things-remember">Things to Remember</label>
+  </nav>
+
+  <main>
+    <input type="radio" id="todays-schedule" class="menu-input ts-input">
+    <div class="todays-schedule">
+      <p>Today's Schedule</p>
+      <div class="ts-box">
+        <ul class="todos-list"></ul>
+      </div>
+      <form class="todos-input">
+        <input type="text" placeholder="Add the task you will do today...">
+        <button class="ts-button">Add</button>
+      </form>      
+    </div>
+
+    <input type="radio" id="things-remember" class="menu-input tr-input">
+    <div id="things-remember" class="things-remember">  
+      <p>Things to Remember</p>
+      <div class="tr-box">
+        <ul class="todos-list"></ul>
+      </div>
+      <form class="todos-input">
+        <input type="text" placeholder="Jot down your to-do or deadline...">
+        <button class="tr-button">Add</button>
+      </form>
+    </div>
+  </main>
+
+  <footer>
+    Made by Ezequias R
+  </footer>
+</body>
+</html>
