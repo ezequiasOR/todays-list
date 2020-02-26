@@ -9,18 +9,73 @@ body {
   color: #f8f8f2;
 }
 
-.cabecalho {
+.header {
   background-color: #44475a;
   height: 100px;
   border-bottom: solid 5px #8be9fd;
 }
 
-.titulo  {
+.title {
   color: #8be9fd;
   font-weight: lighter;
   font-size: 30px;
   font-style: italic;
   text-align: center;
   padding-top: 30px;
+}
+
+input[type="checkbox"] {
+  display: none;
+}
+
+input[type="checkbox"]:checked ~nav {
+  transform: translateX(300px);
+}
+
+.check {
+  padding: 20px 5%;
+  position: absolute;
+  z-index: 1;
+}
+
+.menu {
+  width: 50px;
+  cursor: pointer;
+}
+
+nav {
+  background-color: #44475a;
+  width: 300px;
+  height: 100%;
+  left: -300px;
+  position: absolute;
+  transition: all .5s;
+}
+
+.menu-input {
+  display: none;
+}
+
+.menu-list {
+  display: block;
+  padding: 30px 20px;
+  top: 75px;
+  position: relative;
+  font-size: 20px;
+  color: #6272a4;
+  cursor: pointer;
+}
+
+.menu-list:hover {
+  background-color: #282a36;
+  color: #8be9fd;
+}
+
+.menu-input:checked + .todays-schedule {
+  display: block;
+}
+
+.menu-input:checked + .things-remember {
+  display: block;
 }
 
