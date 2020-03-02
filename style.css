@@ -226,8 +226,7 @@ footer {
   nav { height: 75%; }
   .link_list { top: 35px; font-size: 28px; }
   main { margin-top: 8px; }
-  .type-box { width: 100%; margin: 0 1% 2px 0; z-index: 1; padding: 6px; }
-  .tdy-sched { margin-left: 6%;}
+  .type-box { width: 100%; margin: 0 1% 2px 6%; z-index: 1; padding: 6px; }
   .type-box p { padding: 5px; font-size: 22px; }
   .list-box { max-height: 42vh; width: 100%; padding: 0 0 15px 0; }
   .todos { padding: 5px 5%; font-size: 18px; }
@@ -245,8 +244,7 @@ footer {
   nav { height: 74%; }
   .link_list { top: 35px; font-size: 28px; }
   main { margin-top: 8px; }
-  .type-box { width: 100%; margin: 0 1% 2px 0; z-index: 1; padding: 6px; }
-  .tdy-sched { margin-left: 6%;}
+  .type-box { width: 100%; margin: 0 1% 2px 6%; z-index: 1; padding: 6px; }
   .type-box p { padding: 5px; font-size: 22px; }
   .list-box { max-height: 38vh; width: 100%; padding: 0 0 15px 0; }
   .todos { padding: 5px 5%; font-size: 18px; }
@@ -282,8 +280,7 @@ footer {
   nav { height: 74%; }
   .link_list { top: 35px; font-size: 28px; }
   main { margin-top: 8px; }
-  .type-box { width: 100%; margin: 0 1% 2px 0; z-index: 1; padding: 6px; }
-  .tdy-sched { margin-left: 6%;}
+  .type-box { width: 100%; margin: 0 1% 2px 6%; z-index: 1; padding: 6px; }
   .type-box p { padding: 5px; font-size: 22px; }
   .list-box { max-height: 44vh; width: 100%; }
   .todos { padding: 5px 5%; font-size: 16px; }
@@ -315,8 +312,7 @@ footer {
   nav { height: 74%; }
   .link_list { top: 35px; font-size: 28px; }
   main { margin-top: 10px; }
-  .type-box { width: 100%; margin: 0 1% 2px 0; z-index: 1; padding: 4px; }
-  .tdy-sched { margin-left: 6%;}
+  .type-box { width: 100%; margin: 0 1% 2px 6%; z-index: 1; padding: 4px; }
   .type-box p { padding: 5px; font-size: 20px; }
   .list-box { max-height: 44vh; width: 100%; }
   .todos { padding: 5px 5%; font-size: 14px; }
@@ -368,8 +364,7 @@ footer {
   nav { height: 74%; }
   .link_list { top: 35px; font-size: 26px; }
   main { margin-top: 8px; }
-  .type-box { width: 100%; margin: 0 1% 2px 0; z-index: 1; padding: 4px; }
-  .tdy-sched { margin-left: 6%;}
+  .type-box { width: 100%; margin: 0 1% 2px 6%; z-index: 1; padding: 4px; }
   .type-box p { padding: 5px; font-size: 16px; }
   .list-box { max-height: 44vh; width: 100%; }
   .todos { padding: 2px 5%; font-size: 12px; }
