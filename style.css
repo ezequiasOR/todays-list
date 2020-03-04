@@ -284,7 +284,7 @@ footer {
   main { margin-top: 8px; }
   .type-box { width: 100%; margin: 0 1% 2px 6%; z-index: 1; padding: 6px; }
   .type-box p { padding: 5px; font-size: 22px; }
-  .list-box { max-height: 26vh; width: 100%; }
+  .list-box { max-height: 20vh; width: 100%; }
   .todos { padding: 5px 5%; font-size: 16px; }
   .delButton { vertical-align: bottom; height: 18px; }
   input { padding: 5px 6px; font-size: 15px; }
@@ -319,7 +319,7 @@ footer {
   main { margin-top: 10px; }
   .type-box { width: 100%; margin: 0 1% 2px 6%; z-index: 1; padding: 4px; }
   .type-box p { padding: 5px; font-size: 20px; }
-  .list-box { max-height: 26vh; width: 100%; }
+  .list-box { max-height: 20vh; width: 100%; }
   .todos { padding: 5px 5%; font-size: 14px; }
   .delButton { vertical-align: bottom; height: 16px; }
   input { padding: 3px 4px; font-size: 14px; }
@@ -371,7 +371,7 @@ footer {
   main { margin-top: 8px; }
   .type-box { width: 100%; margin: 0 1% 2px 6%; z-index: 1; padding: 4px; }
   .type-box p { padding: 5px; font-size: 16px; }
-  .list-box { max-height: 26vh; width: 100%; }
+  .list-box { max-height: 20vh; width: 100%; }
   .todos { padding: 2px 5%; font-size: 12px; }
   .delButton { vertical-align: bottom; height: 14px; }
   input { padding: 3px 4px; font-size: 14px; }
