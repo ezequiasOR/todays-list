@@ -1,11 +1,11 @@
-let todaysSchedule = document.querySelector('#app #todays-schedule')
-let thingsRemember = document.querySelector('#app #things-remember')
+const todaysSchedule = document.querySelector('#app #todays-schedule')
+const thingsRemember = document.querySelector('#app #things-remember')
 
-let inputTodaysSched = document.querySelector('#app #ts-input')
-let inputThingsRmr = document.querySelector('#app #tr-input')
+const inputTodaysSched = document.querySelector('#app #ts-input')
+const inputThingsRmr = document.querySelector('#app #tr-input')
 
-let buttonTodaysSched = document.querySelector('#app .button-1')
-let buttonThingsRmr = document.querySelector('#app .button-2')
+const buttonTodaysSched = document.querySelector('#app .button-1')
+const buttonThingsRmr = document.querySelector('#app .button-2')
 
 let todosTodaysSched = JSON.parse(localStorage.getItem('list_todosTodaysSched')) || []
 let todosThingsRmr = JSON.parse(localStorage.getItem('list_todosThingsRmr')) || []
@@ -15,7 +15,16 @@ function render(typeElement, todos) {
 
   for (todo of todos) {
     let todoElement = document.createElement('li')
-    let todoText = document.createTextNode(todo)
+    let todoInput = document.createElement('input')
+    todoInput.setAttribute('type', 'checkbox')
+    todoInput.className = 'todosCheck'
+    todoInput.setAttribute('onclick', `toggleTodo(${todo.id}, ${listTodo})`)
+    
+    if (todo.complete) todoInput.setAttribute('checked', console.log('eita...'))
+    
+    let todoSpan = document.createElement('span')
+
+    let todoText = document.createTextNode(todo.text)
     todoElement.className = 'todos'
 
     let linkElement = document.createElement('img')
@@ -26,8 +35,11 @@ function render(typeElement, todos) {
 
     let pos = todos.indexOf(todo)
     linkElement.setAttribute('onclick', `deleteTodo(${pos}, ${listTodo})`)
+    
+    todoSpan.appendChild(todoText)
 
-    todoElement.appendChild(todoText)
+    todoElement.appendChild(todoInput)
+    todoElement.appendChild(todoSpan)
     todoElement.appendChild(linkElement)
 
     typeElement.appendChild(todoElement)
@@ -57,7 +69,13 @@ function addTodo() {
   let [input, todos, list] = whichInput()
   let todoText = input.value
 
-  todos.push(todoText)
+  const todo = {
+    id: todos.length > 0 ? todos[todos.length - 1].id + 1 : 1,
+    text: todoText,
+    complete: false
+  }
+
+  todos.push(todo)
   input.value = ''
   renderAllTodos()
   saveToStorage(list, todos)
@@ -71,6 +89,18 @@ document.querySelector('#app').addEventListener('keydown', function(e) {
     addTodo();
   }
 })
+
+function toggleTodo(id, numTodo) {
+  let todos = whichTodo(numTodo)
+  let list = whichList(todos)
+
+  todos = todos.map(todo =>
+    todo.id === id
+      ? {id: todo.id, text: todo.text, complete: !todo.complete } : todo = todo
+  )
+
+  saveToStorage(list, todos)
+}
 
 function whichList(todos) {
   if (todos === todosTodaysSched) return 'list_todosTodaysSched'
