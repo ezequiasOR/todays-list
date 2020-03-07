@@ -12,34 +12,34 @@ body {
   display: flex;
   justify-content: center;
   background-color: #44475a;
-  border-bottom: solid 5px #8be9fd;
-  padding: 25px;
+  border-bottom: solid .25rem #8be9fd;
+  padding: 1.5rem;
 }
 
 .header h1 {
   color: #8be9fd;
-  font-size: 40px;
+  font-size: 2.5rem;
   font-weight: 400;
   font-style: italic;
 }
 
-input[type="checkbox"] {
+#check[type="checkbox"] {
   display: none;
 }
 
-input[type="checkbox"]:checked ~nav {
+#check[type="checkbox"]:checked ~nav {
   transform: translateX(100%);
 }
 
 .check {
   display: none;
-  padding: 4px 4%;
+  padding: .2rem 4%;
   position: absolute;
   z-index: 3;
 }
 
 .menu {
-  width: 40px;
+  width: 2.5rem;
 }
 
 nav {
@@ -58,11 +58,11 @@ nav {
 
 .link_list {
   display: block;
-  padding: 30px 5px;
-  top: 75px;
+  padding: 1.8rem 1rem;
+  top: 5rem;
   position: relative;
   text-align: center;
-  font-size: 20px;
+  font-size: 1.5rem;
   color: #6272a4;
   cursor: pointer;
 }
@@ -80,22 +80,22 @@ main {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  margin: 45px 1% 40px 1%;
+  margin: 2.8rem 1% 2rem 1%;
 }
 
 .type-box {
   background-color: #44475a;
-  border-radius: 10px;
-  padding: 8px;
+  border-radius: .6rem;
+  padding: .5rem;
   width: 100%;
-  margin: 0 .5% 2px .5%;
+  margin: 0 .5% .8rem .5%;
 }
 
 .type-box p {
-  padding: 12px;
+  padding: .6rem;
   text-align: center;
   color: #8be9fd;
-  font-size: 20px;
+  font-size: 1.4rem;
   /* font-weight: lighter; */
 }
 
@@ -104,7 +104,7 @@ main {
   max-height: 45vh;
   width: 100%;
   overflow-y: scroll;
-  border-radius: 10px 10px 0 0;
+  border-radius: .6rem .6rem 0 0;
 }
 
 .list-box::-webkit-scrollbar { 
@@ -112,63 +112,92 @@ main {
 }
 
 .todos-list {
-  list-style-type: none;
-  display: inline;
+  padding: .5rem 0 0 0;
 }
 
 .todos {
-  padding: 5px 15px;
-  font-size: 18px;
+  display: flex;
+  align-items: center;
+  padding: .2rem .5rem .2rem 1rem;
+}
+
+.todosCheck {
+  width: 1rem;
+  height: 1rem;
+  background-color: #44475a;
+  border-radius: 50%;
+  border: 1px solid #44475a;
+  -webkit-appearance: none;
+  outline: none;
+  cursor: pointer;
+  margin-right: 1rem;
+}
+
+.todosCheck:checked {
+  background-color: #50fa7b;
+  border: .22rem solid #44475a;
+}
+
+.todosCheck:checked ~ span {
+  color: #586186;
+  text-decoration: line-through;
+}
+
+.todos span {
+  display: inline-block;
+  padding: .35rem 0;
+  font-size: 1.2rem;
+  width: 100%;
 }
 
 .delButton {
-  vertical-align: text-bottom;
-  height: 18px;
-  padding: 2px 10px 2px 10px;
+  display: inline-block;
+  height: 1.2rem;
+  padding: .2rem .7rem .2rem .7rem;
 }
 
 .delButton:hover {
   background-color: #ff5555;
-  border-radius: 15px;
+  border-radius: 15rem;
 }
 
 .input-box {
   background-color: #282a36;
-  border-radius: 0 0 10px 10px;
+  border-radius: 0 0 .6rem .6rem;
   display: flex;
   align-items: center;
   justify-content: center; 
 }
 
-input {
+.inputTodo {
   width: 60%;
-  font-size: 15px;
-  margin: 10px 5px 10px 10px;
-  padding: 6px 10px;
-  border-radius: 35px;
+  font-size: .9rem;
+  margin: .5rem .5rem .6rem .6rem;
+  padding: .38rem 1rem;
+  border-radius: 5rem;
   border: none;
   outline: none;
 }
 
 button {
   width: 27%;
-  font-size: 15px;
-  margin: 10px 10px 10px 0;
-  padding: 6px;
+  font-size: .9rem;
+  margin: .5rem .6rem .6rem 0;
+  padding: .38rem;
   background-color: #50fa7b;
   color: #282a36;
-  border-radius: 35px;
+  border-radius: 5rem;
   border: none;
   outline: none;
 }
 
 footer {
   position: fixed;
-  bottom: 0px;
+  bottom: 0;
   width: 100%;
   background-color: #44475a;
   color: #6272a4;
-  padding: 25px;
+  padding: 1.5rem;
   text-align: left;
 }
 
