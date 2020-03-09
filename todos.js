@@ -18,9 +18,8 @@ function render(typeElement, todos) {
     let todoInput = document.createElement('input')
     todoInput.setAttribute('type', 'checkbox')
     todoInput.className = 'todosCheck'
-    todoInput.setAttribute('onclick', `toggleTodo(${todo.id}, ${listTodo})`)
     
-    if (todo.complete) todoInput.setAttribute('checked', console.log('eita...'))
+    todo.complete ? todoInput.checked = true : todoInput.checked = false
     
     let todoSpan = document.createElement('span')
 
@@ -35,6 +34,7 @@ function render(typeElement, todos) {
 
     let pos = todos.indexOf(todo)
     linkElement.setAttribute('onclick', `deleteTodo(${pos}, ${listTodo})`)
+    todoInput.setAttribute('onchange', `toggleTodo(${pos}, ${listTodo})`)
     
     todoSpan.appendChild(todoText)
 
@@ -90,15 +90,16 @@ document.querySelector('#app').addEventListener('keydown', function(e) {
   }
 })
 
-function toggleTodo(id, numTodo) {
+function toggleTodo(pos, numTodo) {
   let todos = whichTodo(numTodo)
   let list = whichList(todos)
-
-  todos = todos.map(todo =>
-    todo.id === id
-      ? {id: todo.id, text: todo.text, complete: !todo.complete } : todo = todo
-  )
-
+  
+  todos[pos] = {id: todo.id, text: todo.text, complete: !todo.complete }
+  // todos = todos.map(todo =>
+  //   todo.id === id
+  //     ? {id: todo.id, text: todo.text, complete: !todo.complete } : todo = todo
+  // )
+  renderAllTodos()
   saveToStorage(list, todos)
 }
 
@@ -109,13 +110,13 @@ function whichList(todos) {
 }
 
 function whichTodo(num) {
-  if (num == 1) return todosTodaysSched
-  else if (num == 2) return todosThingsRmr
+  if (num === 1) return todosTodaysSched
+  else if (num === 2) return todosThingsRmr
 }
 
 function whichNumTodo(todos) {
-  if (todos == todosTodaysSched) return 1
-  else if (todos == todosThingsRmr) return 2
+  if (todos === todosTodaysSched) return 1
+  else if (todos === todosThingsRmr) return 2
 }
 
 function deleteTodo(pos, numTodo) {
