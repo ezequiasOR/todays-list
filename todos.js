@@ -93,7 +93,8 @@ document.querySelector('#app').addEventListener('keydown', function(e) {
 function toggleTodo(pos, numTodo) {
   let todos = whichTodo(numTodo)
   let list = whichList(todos)
-  
+  let todo = todos[pos]
+
   todos[pos] = {id: todo.id, text: todo.text, complete: !todo.complete }
   // todos = todos.map(todo =>
   //   todo.id === id
