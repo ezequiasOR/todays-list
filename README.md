@@ -1,6 +1,6 @@
 # [Today's List](https://ezequiasor.github.io/todays-list/)
 
-This list is based on the book How to Become a Straight-A Student from Cal Newport where he explains how to manage your time more carefully in order to switch your studying schedule and to start working in short but intense bursts.
+This to-do list is based on the book How to Become a Straight-A Student by Cal Newport where he explains how to manage your time more carefully in order to switch your studying schedule and to start working in short but intense bursts.
 
 ### Breve summary:
 
