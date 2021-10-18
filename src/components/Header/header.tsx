@@ -2,37 +2,23 @@ import React from 'react'
 import { observer } from "mobx-react";
 
 
-import { Menu } from 'antd';
-import { SettingOutlined, HomeOutlined, ProfileOutlined, LogoutOutlined, MenuOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
-
-const { SubMenu } = Menu;
+import { Row, Col } from 'antd';
+import Navbar from '../Navbar/navbar';
+import Title from '../Title/title';
 
 @observer
 class Header extends React.Component {
-  state = {
-    current: 'home',
-  };
-
-  handleClick = e => {
-    console.log('click ', e);
-    this.setState({ current: e.key });
-  };
 
   render() {
-    const { current } = this.state;
     return (
-      <Menu onClick={this.handleClick} selectedKeys={[current]} mode="horizontal">
-        <Menu.Item key="home" icon={<HomeOutlined />}>
-          <Link to="/">Home</Link>
-        </Menu.Item>
-        <SubMenu key="menu" icon={<MenuOutlined />} title="Menu">
-          <Menu.Item key="profile" icon={<SettingOutlined />}>
-            <Link to="/profile">Profile</Link>
-          </Menu.Item>
-          <Menu.Item key="logout" icon={<LogoutOutlined />}>Logout</Menu.Item>
-        </SubMenu>
-      </Menu>
+      <Row>
+        <Col span={20}>
+          <Title />
+        </Col>
+        <Col span={4}>
+          <Navbar />
+        </Col>
+      </Row>
     );
   }
 }

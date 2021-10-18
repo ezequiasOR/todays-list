@@ -1,6 +1,5 @@
 import React from 'react'
 import { observer } from 'mobx-react'
-import { HOME } from '../../stores/UrlRouter'
 
 @observer
 class homeIndex extends React.Component {
