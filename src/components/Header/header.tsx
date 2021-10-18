@@ -15,7 +15,7 @@ class Header extends React.Component {
         <Col span={20}>
           <Title />
         </Col>
-        <Col span={4}>
+        <Col className="navbar-span" span={4}>
           <Navbar />
         </Col>
       </Row>
