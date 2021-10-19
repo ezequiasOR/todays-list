@@ -12,7 +12,6 @@ class homeIndex extends React.Component {
 
   constructor(props) {
     super(props)
-    debugger;
     this.store = new HomeIndexStore(new User(), HomeService, 'User')
   }
 

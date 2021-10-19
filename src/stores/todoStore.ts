@@ -1,35 +1,49 @@
-import { action, makeObservable, observable, runInAction } from "mobx";
-import ToDoService from '../services/todo'
+import { action, makeObservable, observable } from "mobx";
+import ToDo from "../domains/toDo";
+// import User from "../domains/user";
+// import ToDoService from '../services/todo'
 
-interface ToDo {
-  id: number,
-  description: string,
-  completed: boolean,
-  date: string, // TODO: trocar para data
-}
+// interface ToDo {
+//   id: number,
+//   description: string,
+//   completed: boolean,
+//   date: string, // TODO: trocar para data
+// }
 
 class ToDoStore {
+  object: ToDo = new ToDo(null)
   loading: Boolean = false
   todos: ToDo[] = [
-    { id: 1, description: 'Item 1', completed: true, date: 'asdfadf' },
-    { id: 2, description: 'Item 2', completed: false, date: 'asdfadf' },
-    { id: 3, description: 'Item 3', completed: false, date: 'asdfadf' },
-    { id: 4, description: 'Item 4', completed: false, date: 'asdfadf' },
-    { id: 5, description: 'Item 5', completed: true, date: 'asdfadf' },
-    { id: 6, description: 'Item 6', completed: false, date: 'asdfadf' },
-    { id: 7, description: 'Item 7', completed: false, date: 'asdfadf' },
+    { id: 1, description: 'Item 1' }, //, completed: true, date: 'asdfadf' },
+    { id: 2, description: 'Item 2' }, //, completed: false, date: 'asdfadf' },
+    { id: 3, description: 'Item 3' }, //, completed: false, date: 'asdfadf' },
+    { id: 4, description: 'Item 4' }, //, completed: false, date: 'asdfadf' },
+    { id: 5, description: 'Item 5' }, //, completed: true, date: 'asdfadf' },
+    { id: 6, description: 'Item 6' }, //, completed: false, date: 'asdfadf' },
+    { id: 7, description: 'Item 7' }, //, completed: false, date: 'asdfadf' },
   ]
 
-  constructor() {
+  protected entity;
+  protected service;
+  protected entityName;
+  constructor(entity, service, entityName) {
+    this.entity = entity
+    this.service = service
+    this.entityName = entityName
     makeObservable(this, {
+      object: observable,
       loading: observable,
       todos: observable,
       getAllTodos: action,
       addToDo: action,
-      togglerToDo: action,
+      // togglerToDo: action,
       removeToDo: action,
       updateToDo: action,
+      init: action
     })
+  }
+  init() {
+    this.object = new ToDo(null)
   }
 
   getAllTodos = (listId: number, token: string) => {
@@ -49,9 +63,9 @@ class ToDoStore {
     this.todos.push(toDo)
   }
 
-  togglerToDo = (id: number) => {
-    this.todos = this.todos.map(todo => todo.id === id ? { ...todo, completed: !todo.completed } : todo)
-  }
+  // togglerToDo = (id: number) => {
+  //   this.todos = this.todos.map(todo => todo.id === id ? { ...todo, completed: !todo.completed } : todo)
+  // }
 
   removeToDo = (id: number) => {
     this.todos = this.todos.filter(todo => todo.id !== id)
@@ -62,6 +76,4 @@ class ToDoStore {
   }
 }
 
-const instance = new ToDoStore()
-
-export default instance
+export default ToDoStore
