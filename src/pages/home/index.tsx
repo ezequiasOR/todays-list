@@ -1,7 +1,7 @@
 import React from 'react'
 import { observer } from 'mobx-react'
-import CardToDo from '../../components/CardToDo/cardToDo'
-import CollapseList from '../../components/CollapseList/collapseList'
+import CardToDo from './CardToDo/cardToDo'
+import CollapseList from './CollapseList/collapseList'
 import HomeIndexStore from '../../stores/HomeIndexStore';
 import User from '../../domains/user';
 import HomeService from '../../services/home'
@@ -17,7 +17,7 @@ class homeIndex extends React.Component {
 
   render() {
     return (
-      <div style={{ margin: '10px' }}>
+      <div style={{ margin: '20px 10% 20px' }}>
         <CardToDo />
         <CollapseList />
       </div>

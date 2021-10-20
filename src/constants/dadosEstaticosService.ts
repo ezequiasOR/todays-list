@@ -1,9 +1,9 @@
 const DadosEstaticosService = {
-  getURLServidorDev() {
+  getURLServidorDev(): string {
     return 'http://localhost:8080'
   },
 
-  getURLServidorProd() {
+  getURLServidorProd(): string {
       return '';
     },
 }

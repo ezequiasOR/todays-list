@@ -1,21 +1,16 @@
 import { makeObservable, observable } from 'mobx';
+import DomainBase from './DomainBase';
 
-class ToDo {
-  id;
-  description;
+class ToDoDomain extends DomainBase {
+  @observable id
+  @observable description
+  @observable listId
+  @observable dhToDo
   
-  constructor(response) {
-    makeObservable(this, {
-      id: observable,
-      description: observable,
-     
-    })
-    if (response) {
-      for (let key in this) {
-        this[key] = response[key]
-      }
-    }
+  constructor() {
+    super()
+    makeObservable(this)
   }
 }
 
-export default ToDo;
+export default ToDoDomain;
