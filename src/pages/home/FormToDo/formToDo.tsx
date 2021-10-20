@@ -16,7 +16,7 @@ class FormToDo extends React.Component {
   onFinish = (token: string) => {
     debugger
     console.log(token)
-    this.store.save(CrudActionType.CREATE, () => {}, () => {}, `list/${this.store.object.listId}/todo`)
+    this.store.save(CrudActionType.CREATE, () => {}, () => {}, `list/${encodeURI(this.store.object.listId)}/todo`)
     this.onReset()
   }
 

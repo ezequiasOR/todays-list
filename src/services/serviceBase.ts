@@ -37,7 +37,11 @@ class ServiceBase {
   private _create = (object: Record<string, unknown>, pathParams: string[] = [], endpoint: string | null = null) => {
     debugger
     const endpointBase = this.getEndpointWithPathParams(pathParams, endpoint);
-    return axios.post(`${this.host}/${endpointBase}`, object);
+    return axios.post(`${this.host}/${endpointBase}`, object, {
+      headers: {
+        "Authorization": `Bearer add_token_here`,
+      },
+    });
   };
 
   private _update = (object: { id?: string | number }, pathParams: string[] = [], endpoint: string | null = null) => {
