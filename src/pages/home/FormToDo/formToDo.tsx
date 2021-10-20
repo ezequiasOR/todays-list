@@ -13,6 +13,7 @@ class FormToDo extends React.Component {
     super(props)
     this.store = new ToDoStore()
   }
+
   onFinish = (token: string) => {
     debugger
     console.log(token)
@@ -27,7 +28,11 @@ class FormToDo extends React.Component {
   render() {
 
     return (
-      <Form layout="vertical" onFinish={() => this.onFinish("token")} ref={this.formRef}>
+      <Form
+        layout="vertical"
+        onFinish={() => this.onFinish("token")}
+        ref={this.formRef}
+      >
         <Row gutter={8}>
           <Col span={12}>
             <Form.Item label="To do" name={'description'} >
