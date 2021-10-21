@@ -2,27 +2,53 @@ import React from 'react'
 import { observer } from 'mobx-react'
 import CardToDo from './CardToDo/cardToDo'
 import CollapseList from './CollapseList/collapseList'
-import HomeIndexStore from '../../stores/HomeIndexStore';
-import User from '../../domains/user';
-import HomeService from '../../services/home'
+import HomeStore from '../../stores/HomeStore';
+import { Spin } from 'antd';
 
 @observer
-class homeIndex extends React.Component {
+class HomeIndex extends React.Component {
   protected store;
+  protected lists;
 
   constructor(props) {
     super(props)
-    this.store = new HomeIndexStore(new User(), HomeService, 'User')
+    this.store = new HomeStore()
+  }
+
+  componentDidMount() {
+    this.store.init()
+
+  }
+  
+  returnLists(data) {
+    const lists = [{}]
+    if (data) {
+      data.forEach(list => {
+        const obj = {
+          value: list.id,
+          label: list.name
+        }
+        lists.push(obj)
+      });
+    } else {
+      return lists
+    }
+    lists.splice(0, 1)
+    return lists
   }
 
   render() {
-    return (
-      <div style={{ margin: '20px 10% 20px' }}>
-        <CardToDo />
-        <CollapseList />
-      </div>
-    )
+    if (this.store.object && this.store.object.id) {
+      return (
+        <div style={{ margin: '20px 10% 20px' }}>
+          <CardToDo {...[this.returnLists(this.store.object.lists)]} />
+          <CollapseList />
+        </div>
+      )
+    } else {
+      return <Spin />
+    }
   }
 }
 
-export default homeIndex
+export default HomeIndex

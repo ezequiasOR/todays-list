@@ -1,15 +1,6 @@
 import { action, makeObservable, observable, runInAction } from "mobx";
 import DomainBase from "../domains/DomainBase";
 import ServiceBase from '../services/serviceBase'
-// import User from "../domains/user";
-// import ToDoService from '../services/todo'
-
-// interface ToDo {
-//   id: number,
-//   description: string,
-//   completed: boolean,
-//   date: string, // TODO: trocar para data
-// }
 
 abstract class BaseStore<D extends DomainBase = DomainBase> {
   @observable
@@ -58,7 +49,7 @@ abstract class BaseStore<D extends DomainBase = DomainBase> {
      errorCallback?: (msg?: string) => void,
      endpoint?: string | null
    ) {
-     debugger
+    //  debugger
      this.loading = true;
      try {
       //  this.validateObject();
@@ -81,6 +72,39 @@ abstract class BaseStore<D extends DomainBase = DomainBase> {
        });
      }
    }
+
+   /**
+   *
+   * @param {string} id Id do registro a ser buscado
+   * @param {string} endpoint - Se passado, usa esse endpoint, ao invés do endpoint padrão do Service.
+   * @param {function} onSuccess - Função callback a ser executada em caso de sucesso.
+   * @param {function} onError - Função callback a ser executada em caso de error.
+   * @returns {Promise<void>}
+   */
+  @action
+  async getById(
+    id: string | number,
+    endpoint?: string | null,
+    onSuccess?: () => void,
+    onError = (error: Record<string, unknown>) => {}
+      // Utils.showMessageError(`Ao recuperar o registro ocorreu o erro: ${Utils.trataMensagemDeErro(error)}`)
+  ) {
+    // debugger
+    this.loading = true;
+    try {
+      const response = await this.service.getById(id, this.pathParams, endpoint);
+      runInAction(() => {
+        this.object = Reflect.construct(this.object.constructor, [response.data]);
+        onSuccess && onSuccess();
+      });
+    } catch (error) {
+      console.error(error);
+      onError && onError(error as Record<string, unknown>);
+    } finally {
+      runInAction(() => (this.loading = false));
+    }
+  }
+
 }
 
 export default BaseStore

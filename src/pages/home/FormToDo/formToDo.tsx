@@ -9,14 +9,16 @@ import CrudActionType from '../../../utils/CrudActionType';
 class FormToDo extends React.Component {
   formRef = React.createRef<FormInstance>()
   protected store
+  protected lists
+
   constructor(props) {
     super(props)
+    debugger
+    this.lists = props[0]
     this.store = new ToDoStore()
   }
 
   onFinish = (token: string) => {
-    debugger
-    console.log(token)
     this.store.save(CrudActionType.CREATE, () => {}, () => {}, `list/${encodeURI(this.store.object.listId)}/todo`)
     this.onReset()
   }
@@ -48,7 +50,7 @@ class FormToDo extends React.Component {
             <Form.Item label="List" name={'listId'}>
               <Select
                 placeholder={'Choose the ToDo List'}
-                options={[ {label: "Today's List", value: 1}, {label: "Things to Remember", value: 2} ]}
+                options={this.lists}
                 onChange={value => 
                   this.store.updateAttributeDecoratorKeyValue('listId', value)
                 }

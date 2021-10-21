@@ -14,15 +14,19 @@ const tabList = [
   },
 ];
 
-const contentList = {
-  addTodo: <FormToDo />,
-  addList: <FormList />,
-};
-
 class CardToDo extends React.Component {
   state = {
     key: 'addTodo',
   };
+  
+  private contentList
+  constructor(props) {
+    super(props)
+    this.contentList = {
+      addTodo: <FormToDo {...props}/>,
+      addList: <FormList />,
+    };
+  }
 
   onTabChange = (key, type) => {
     this.setState({ [type]: key });
@@ -39,7 +43,7 @@ class CardToDo extends React.Component {
             this.onTabChange(key, 'key');
           }}
         >
-          {contentList[this.state.key]}
+          {this.contentList[this.state.key]}
         </Card>
       </>
     );
