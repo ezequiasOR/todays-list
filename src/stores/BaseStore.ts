@@ -103,6 +103,33 @@ abstract class BaseStore<D extends DomainBase = DomainBase> {
     }
   }
 
+  /**
+   * @param {string} endpoint - Se passado, usa esse endpoint, ao invés do endpoint padrão do Service.
+   * @param {function} onSuccess - Função callback a ser executada em caso de sucesso.
+   * @param {function} onError - Função callback a ser executada em caso de error.
+   * @returns {Promise<void>}
+   */
+   @action
+   async get(
+     endpoint?: string | null,
+     onSuccess?: () => void,
+     onError = (error: Record<string, unknown>) => {}
+       // Utils.showMessageError(`Ao recuperar o registro ocorreu o erro: ${Utils.trataMensagemDeErro(error)}`)
+   ) {
+     this.loading = true;
+     try {
+       const response = await this.service.get(this.pathParams, endpoint);
+       runInAction(() => {
+         this.object = Reflect.construct(this.object.constructor, [response.data]);
+         onSuccess && onSuccess();
+       });
+     } catch (error) {
+       console.error(error);
+       onError && onError(error as Record<string, unknown>);
+     } finally {
+       runInAction(() => (this.loading = false));
+     }
+   }
 }
 
 export default BaseStore

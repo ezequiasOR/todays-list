@@ -11,9 +11,11 @@ class FormList extends React.Component {
   
   protected store
   protected homeStore
+  protected userId
   constructor(props) {
     super(props)
     this.homeStore = props.homeStore
+    this.userId = props.userId
     this.store = new ListStore()
   }
   
@@ -21,7 +23,7 @@ class FormList extends React.Component {
     // TODO: trocar URL com userId fixo por `list/${encodeURI(this.store.object.userId)}/todo` 
     this.store.save(CrudActionType.CREATE, () => {}, () => {}, `user/1/list`)
     this.onReset()
-    this.homeStore.init()
+    this.homeStore.getLists(this.userId)
   }
 
   onReset = () => {
