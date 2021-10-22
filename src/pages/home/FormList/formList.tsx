@@ -20,8 +20,7 @@ class FormList extends React.Component {
   }
   
   onFinish = (token: string) => {
-    // TODO: trocar URL com userId fixo por `list/${encodeURI(this.store.object.userId)}/todo` 
-    this.store.save(CrudActionType.CREATE, () => {}, () => {}, `user/1/list`)
+    this.store.save(CrudActionType.CREATE, () => {}, () => {}, `user/${encodeURI(this.userId)}/list`)
     this.onReset()
     this.homeStore.getLists(this.userId)
   }

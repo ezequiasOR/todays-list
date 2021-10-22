@@ -22,7 +22,7 @@ class ServiceBase {
     const endpointBase = this.getEndpointWithPathParams(pathParams, endpoint);
     return axios.get(encodeURI(`${this.host}/${endpointBase}/${id}`), {
       headers: {
-        "Authorization": `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlemVxdWlhc29yIiwiaWF0IjoxNjM0OTM5OTE1LCJleHAiOjE2MzU1NDQ3MTV9.nbCQAEeoEZxKnY-gPFDyWXKhjknNQZQi--NkHUT_80ExtqRK0bB4PB9IpFcrgn_FtsDAJOdP9sBc0MHxme3RIw`,
+        "Authorization": `Bearer token`,
       },
     });
   }
@@ -35,7 +35,7 @@ class ServiceBase {
     const endpointBase = this.getEndpointWithPathParams(pathParams, endpoint);
     return axios.get(encodeURI(`${this.host}/${endpointBase}`), {
       headers: {
-        "Authorization": `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlemVxdWlhc29yIiwiaWF0IjoxNjM0OTM5OTE1LCJleHAiOjE2MzU1NDQ3MTV9.nbCQAEeoEZxKnY-gPFDyWXKhjknNQZQi--NkHUT_80ExtqRK0bB4PB9IpFcrgn_FtsDAJOdP9sBc0MHxme3RIw`,
+        "Authorization": `Bearer token`,
       },
     });
   }
@@ -66,7 +66,7 @@ class ServiceBase {
     const endpointBase = this.getEndpointWithPathParams(pathParams, endpoint);
     return axios.post(`${this.host}/${endpointBase}`, object, {
       headers: {
-        "Authorization": `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlemVxdWlhc29yIiwiaWF0IjoxNjM0OTI3ODg4LCJleHAiOjE2MzU1MzI2ODh9.LLvUQtPgnIh4ySyt2vBT3rkpFITLVWBbloWYHBYkZWiagzGtyOf3RPgxgAC19dYAFVaBrPzXXPRbMoUsnEJvSw`,
+        "Authorization": `Bearer token`,
       },
     });
   };

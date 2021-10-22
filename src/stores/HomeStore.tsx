@@ -9,6 +9,7 @@ class HomeStore extends BaseStore {
   constructor() {
     super(UserService)
     makeObservable(this)
+    this.getLists = this.getLists.bind(this)
   }
 
   initializeData() {
