@@ -1,8 +1,7 @@
 import React from 'react'
 import { observer } from 'mobx-react'
-import CollapseList from './CollapseList/collapseList'
 import HomeStore from '../../stores/HomeStore';
-import { Card, Spin } from 'antd';
+import { Card, Collapse, Spin } from 'antd';
 import FormToDo from './FormToDo/formToDo';
 import FormList from './FormList/formList';
 
@@ -11,6 +10,7 @@ class HomeIndex extends React.Component {
   protected store;
   protected lists;
   protected contentList;
+  protected userId
 
   state = {
     key: 'addTodo'
@@ -30,15 +30,19 @@ class HomeIndex extends React.Component {
   constructor(props) {
     super(props)
     this.store = new HomeStore()
+    this.userId = props.userId
+    this.store.getLists(this.userId)
   }
 
   componentDidMount() {
     this.store.init()
+    this.store.getLists(this.userId)
   }
   
   componentDidUpdate(prevProps, prevState) {
     if (prevState.key !== this.state.key) {
       this.store.init()
+      this.store.getLists(this.userId)
     }
   }
 
@@ -46,10 +50,11 @@ class HomeIndex extends React.Component {
     this.setState({ [type]: key });
   };
   
-  buildProps(lists) {
+  buildProps() {
     return {
-      lists: this.returnLists(lists),
-      homeStore: this.store
+      lists: this.returnLists(this.store.lists),
+      homeStore: this.store,
+      userId: this.userId
     }
   }
 
@@ -70,11 +75,16 @@ class HomeIndex extends React.Component {
     return lists
   }
 
+  callback(key) {
+    console.log(key);
+  }
+  
   render() {
+    const { Panel } = Collapse;
     if (this.store.object && this.store.object.id) {
       this.contentList = {
-        addTodo: <FormToDo {...this.buildProps(this.store.object.lists)} />,
-        addList: <FormList {...this.buildProps(this.store.object.lists)} />,
+        addTodo: <FormToDo {...this.buildProps()} />,
+        addList: <FormList {...this.buildProps()} />,
       };
       return (
         <div style={{ margin: '20px 10% 20px' }}>
@@ -88,7 +98,16 @@ class HomeIndex extends React.Component {
           >
             {this.contentList[this.state.key]}
           </Card>
-          <CollapseList />
+          <Collapse style={{margin: '20px 20px 0px'}} onChange={this.callback} expandIconPosition={'right'}>
+            {this.store.lists.map((list) => {
+              return (
+                <Panel header={list.name} key={`${list.id}-${list.name}`}>
+                  <p>asdfasdfasdfasdfasdfasdf</p>
+                </Panel>
+              )
+            })}
+            
+          </Collapse>
         </div>
       )
     } else {

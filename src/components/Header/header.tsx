@@ -2,7 +2,7 @@ import React from 'react'
 import { observer } from "mobx-react";
 
 
-import { Row, Col } from 'antd';
+import { Row, Col, Divider } from 'antd';
 import Navbar from '../Navbar/navbar';
 import Title from '../Title/title';
 
@@ -18,6 +18,8 @@ class Header extends React.Component {
         <Col className="navbar-span" span={4}>
           <Navbar />
         </Col>
+        <Divider className="ant-card-bordered" style={{ margin: '0px'}} />
+
       </Row>
     );
   }
