@@ -13,8 +13,7 @@ class FormToDo extends React.Component {
 
   constructor(props) {
     super(props)
-    debugger
-    this.lists = props[0]
+    this.lists = props.lists
     this.store = new ToDoStore()
   }
 
@@ -28,7 +27,6 @@ class FormToDo extends React.Component {
   };
 
   render() {
-
     return (
       <Form
         layout="vertical"

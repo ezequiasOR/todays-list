@@ -19,7 +19,6 @@ class ServiceBase {
    * @param {string}        endpoint - Se passado, usa esse endpoint, ao invés do endpoint padrão do Service.
    */
   getById(id: string | number, pathParams: string[] = [], endpoint: string | null = null) {
-    // debugger
     const endpointBase = this.getEndpointWithPathParams(pathParams, endpoint);
     return axios.get(encodeURI(`${this.host}/${endpointBase}/${id}`), {
       headers: {
@@ -42,7 +41,6 @@ class ServiceBase {
     pathParams: string[] = [],
     endpoint: string | null = null
   ) {
-    // debugger
     switch (actionType) {
       case CrudActionType.CREATE:
         return this._create(object, pathParams, endpoint);
@@ -52,7 +50,6 @@ class ServiceBase {
   }
 
   private _create = (object: Record<string, unknown>, pathParams: string[] = [], endpoint: string | null = null) => {
-    // debugger
     const endpointBase = this.getEndpointWithPathParams(pathParams, endpoint);
     return axios.post(`${this.host}/${endpointBase}`, object, {
       headers: {
@@ -62,13 +59,11 @@ class ServiceBase {
   };
 
   private _update = (object: { id?: string | number }, pathParams: string[] = [], endpoint: string | null = null) => {
-    // debugger
     const endpointBase = this.getEndpointWithPathParams(pathParams, endpoint);
     return axios.put(encodeURI(`${this.host}/${endpointBase}/${object.id}`), object);
   };
 
   getEndpointWithPathParams(params: string[], overrideEndpoint: string | null = null) {
-    // debugger
     const endpointToUse = overrideEndpoint ? overrideEndpoint : this.endPoint;
 
     if (endpointToUse && endpointToUse.includes('#PARAM')) {
@@ -79,7 +74,6 @@ class ServiceBase {
   }
 
   private _getUrlSlices(url: string, params: string[]) {
-    // debugger
     const urlSplitted = url.split('#PARAM');
 
     return urlSplitted.map((val, index) => {

@@ -14,7 +14,6 @@ abstract class DomainBase {
    * @param data
    */
   setData(data: Record<string, unknown> = {}) {
-    // debugger
     if (Object.keys(data).length !== 0) {
       Reflect.ownKeys(data).forEach(property => {
         if (Reflect.has(this, property)) {

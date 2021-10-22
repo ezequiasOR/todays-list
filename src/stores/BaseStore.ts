@@ -49,7 +49,6 @@ abstract class BaseStore<D extends DomainBase = DomainBase> {
      errorCallback?: (msg?: string) => void,
      endpoint?: string | null
    ) {
-    //  debugger
      this.loading = true;
      try {
       //  this.validateObject();
@@ -89,7 +88,6 @@ abstract class BaseStore<D extends DomainBase = DomainBase> {
     onError = (error: Record<string, unknown>) => {}
       // Utils.showMessageError(`Ao recuperar o registro ocorreu o erro: ${Utils.trataMensagemDeErro(error)}`)
   ) {
-    // debugger
     this.loading = true;
     try {
       const response = await this.service.getById(id, this.pathParams, endpoint);
