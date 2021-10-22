@@ -1,26 +1,22 @@
-import { observable } from 'mobx'
+import { makeObservable, observable } from 'mobx'
+import DomainBase from './DomainBase'
 
-interface List {
-  id: number,
-  name: string
-}
+class User extends DomainBase {
+  @observable id
+  @observable name
+  @observable username
+  @observable email
+  @observable password
+  @observable roles
+  @observable lists: [{}] = [{}]
 
-class User {
-  @observable id!: number
-  @observable name!: string
-  @observable username!: string
-  @observable email!: string
-  @observable password!: string
-  @observable roles!: string
-  @observable lists!: List
-
-  // constructor(response) {
-  //   if (response) {
-  //     for (let key in this) {
-  //       this[key] = response[key]
-  //     }
-  //   }
-  // }
+  constructor(data?: Record<string, number>) {
+    super()
+    makeObservable(this)
+    if (data) {
+      this.setData(data)
+    }
+  }
 }
 
 export default User

@@ -10,17 +10,18 @@ class FormList extends React.Component {
   formRef = React.createRef<FormInstance>()
   
   protected store
+  protected homeStore
   constructor(props) {
     super(props)
+    this.homeStore = props.homeStore
     this.store = new ListStore()
   }
   
   onFinish = (token: string) => {
-    debugger
-    console.log(token)
     // TODO: trocar URL com userId fixo por `list/${encodeURI(this.store.object.userId)}/todo` 
     this.store.save(CrudActionType.CREATE, () => {}, () => {}, `user/1/list`)
     this.onReset()
+    this.homeStore.init()
   }
 
   onReset = () => {

@@ -1,35 +1,9 @@
-import axios from 'axios'
+import ServiceBase from "./serviceBase"
 
-import DadosEstaticosService from '../constants/dadosEstaticosService'
-
-const api = DadosEstaticosService.getURLServidorDev()
-
-interface User {
-  id?: string | number,
-  name: string,
-  email: string,
-  username: string,
-  password: string,
-}
-
-class UserService {
-  save = (user: User) => {
-    return axios.post(`${api}/signup`, user)
-  }
-
-  update = (user: User, token: string) => {
-    return axios.put(`${api}/user/${user.id}`, user, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-  }
-
-  delete = (userId: number) => {
-    return axios.delete(`${api}/user/${userId}`)
+class UserService extends ServiceBase {
+  constructor() {
+    super('user/:userId')
   }
 }
 
-const instance = new UserService()
-
-export default instance
+export default  new UserService()
