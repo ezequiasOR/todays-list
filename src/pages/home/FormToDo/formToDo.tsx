@@ -4,16 +4,20 @@ import { Form, Input, Button, Select, DatePicker, Row, Col } from 'antd';
 import { FormInstance } from 'antd/es/form';
 import ToDoStore from '../../../stores/todoStore'
 import CrudActionType from '../../../utils/CrudActionType';
+import moment from 'moment';
 
 @observer
 class FormToDo extends React.Component {
   formRef = React.createRef<FormInstance>()
   protected store
   protected lists
+  protected toDoInfos
 
   constructor(props) {
     super(props)
+    // debugger
     this.lists = props.lists
+    this.toDoInfos = props.toDoInfos
     this.store = new ToDoStore()
   }
 
@@ -38,6 +42,7 @@ class FormToDo extends React.Component {
             <Form.Item label="To do" name={'description'} >
               <Input
                 placeholder={'Type the ToDo'}
+                defaultValue={this.toDoInfos.description}
                 onChange={value => 
                   this.store.updateAttributeDecoratorKeyEventValue('description', value)
                 }
@@ -48,6 +53,7 @@ class FormToDo extends React.Component {
             <Form.Item label="List" name={'listId'}>
               <Select
                 placeholder={'Choose the ToDo List'}
+                // defaultValue={this.toDoInfos.description}
                 options={this.lists}
                 onChange={value => 
                   this.store.updateAttributeDecoratorKeyValue('listId', value)
@@ -56,12 +62,13 @@ class FormToDo extends React.Component {
             </Form.Item>
           </Col>
           <Col span={4}>
-            <Form.Item label="Date" name={'dhToDo'} >
+            <Form.Item label="Date" name={'dtToDo'} >
               <DatePicker
                 showTime={true}
+                defaultValue={moment(this.toDoInfos.dtToDo)}
                 showSecond={false}
                 onChange={dh => 
-                  this.store.updateAttributeDecoratorKeyValue('dhToDo', dh)
+                  this.store.updateAttributeDecoratorKeyValue('dtToDo', dh)
                 }
               />
             </Form.Item>

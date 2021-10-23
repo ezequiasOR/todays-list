@@ -5,7 +5,8 @@ class ToDoDomain extends DomainBase {
   @observable id
   @observable description
   @observable listId
-  @observable dhToDo
+  @observable dtToDo
+  @observable completed = false
   
   constructor() {
     super()

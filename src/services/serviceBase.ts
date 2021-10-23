@@ -40,6 +40,20 @@ class ServiceBase {
     });
   }
 
+  /**
+   * @param {array}         pathParams - Parâmetros de URL para serem colocados no endpoint a ser chamado.
+   * @param {string}        endpoint - Se passado, usa esse endpoint, ao invés do endpoint padrão do Service.
+   */
+  delete(pathParams: string[] = [], endpoint: string | null = null) {
+    debugger
+    const endpointBase = this.getEndpointWithPathParams(pathParams, endpoint);
+    return axios.delete(encodeURI(`${this.host}/${endpointBase}`), {
+      headers: {
+        "Authorization": `Bearer token`,
+      },
+    });
+  }
+
 
   /**
    * Efetua a chamada de importação de dados a partir de uma planilha Excel.
