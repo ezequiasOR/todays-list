@@ -1,4 +1,4 @@
-import { action, computed, makeObservable, observable, runInAction } from 'mobx';
+import { action, makeObservable, observable, runInAction } from 'mobx';
 import BaseStore from './BaseStore';
 import UserService from '../services/user'
 import UserDomain from '../domains/user';
@@ -75,17 +75,6 @@ class HomeStore extends BaseStore {
           this.loading = false
         })
       })
-  }
-
-  @computed
-  get todoWithKey() {
-    debugger
-    return Object.keys(this.todos).forEach((key) => {
-      if (!this.todos[key].hasOwnProperty('key')) {
-        this.todos[key].key = `todo-${key}`;
-      }
-      return this.todos[key];
-    });
   }
 
 }

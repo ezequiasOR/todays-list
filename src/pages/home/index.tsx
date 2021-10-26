@@ -8,12 +8,12 @@ import './index.css'
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { getValueDate } from '../../utils/Utils';
 
+
 @observer
 class HomeIndex extends React.Component {
   protected store;
   protected contentList;
   protected userId
-  protected todoEdit
 
   state = {
     key: 'addTodo'
@@ -53,12 +53,11 @@ class HomeIndex extends React.Component {
     this.setState({ [type]: key });
   };
   
-  buildProps(toDoInfos = {}) {
+  buildProps() {
     return {
       lists: this.returnLists(this.store.lists),
       homeStore: this.store,
       userId: this.userId,
-      toDoInfos: toDoInfos
     }
   }
 
@@ -79,7 +78,7 @@ class HomeIndex extends React.Component {
     return lists
   }
 
-  callback(key, store) {
+  getToDosForEachList(key, store) {
     if (key) {
       key.forEach(k => {
         const listId = k.split('-')[0]
@@ -87,19 +86,13 @@ class HomeIndex extends React.Component {
       })
     }
   }
-  
-  passData(toDo) {
-    // debugger
-    // this.todoEdit = toDo
-    // this.forceUpdate()
-  }
 
   render() {
     const { Panel } = Collapse;
 
     if (this.store.object && this.store.object.id) {
       this.contentList = {
-        addTodo: <FormToDo {...this.buildProps(this.todoEdit)} />,
+        addTodo: <FormToDo {...this.buildProps()} />,
         addList: <FormList {...this.buildProps()} />,
       };
 
@@ -113,7 +106,7 @@ class HomeIndex extends React.Component {
               <Row gutter={8}>
                 <Col>
                   <Tooltip title="Edit">
-                    <Button onClick={() => this.passData(row)} icon={<EditOutlined />}></Button>
+                    <Button onClick={() => {}} icon={<EditOutlined />}></Button>
                   </Tooltip>
                 </Col>
                 <Col>
@@ -159,7 +152,7 @@ class HomeIndex extends React.Component {
           </Card>
           {this.store.lists.map((list) => {
             return (
-              <Collapse key={`collapse-${list.id}`} style={{margin: '20px 20px 0px'}} onChange={(key) => this.callback(key, this.store)} expandIconPosition={'right'}>
+              <Collapse key={`collapse-${list.id}`} style={{margin: '20px 20px 0px'}} onChange={(key) => this.getToDosForEachList(key, this.store)} expandIconPosition={'right'}>
                 <Panel header={list.name} key={`${list.id}-${list.name}`} >
                   <Table columns={columns} dataSource={this.store.todos[list.id]} size="small" />
                 </Panel>
