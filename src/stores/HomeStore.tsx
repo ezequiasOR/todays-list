@@ -2,14 +2,17 @@ import { action, makeObservable, observable, runInAction } from 'mobx';
 import BaseStore from './BaseStore';
 import UserService from '../services/user'
 import UserDomain from '../domains/user';
-
+import ToDoService from '../services/todo';
 class HomeStore extends BaseStore {
   @observable lists
+  @observable todos = {}
 
   constructor() {
     super(UserService)
     makeObservable(this)
     this.getLists = this.getLists.bind(this)
+    this.getTodos = this.getTodos.bind(this)
+    this.deleteTodo = this.deleteTodo.bind(this)
   }
 
   initializeData() {
@@ -38,7 +41,42 @@ class HomeStore extends BaseStore {
         })
       })
   }
-  
+
+  @action
+  getTodos(listId) {
+    this.loading = true
+    ToDoService.get(this.pathParams, `list/${encodeURI(listId)}/todo`)
+      .then(response => {
+        runInAction(() => {
+          this.loading = false
+          if (response && response.data) {
+            this.todos[listId] = response.data
+          }
+        })
+      })
+      .catch(error => {
+        runInAction(() => {
+          this.loading = false
+        })
+      })
+  }
+
+  @action
+  deleteTodo(todoId) {
+    this.loading = true
+    ToDoService.delete(this.pathParams, `todo/${todoId}`)
+      .then(response => {
+        runInAction(() => {
+          this.loading = false
+        })
+      })
+      .catch(error => {
+        runInAction(() => {
+          this.loading = false
+        })
+      })
+  }
+
 }
 
 export default HomeStore

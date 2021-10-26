@@ -1,14 +1,17 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 import HomeStore from '../../stores/HomeStore';
-import { Card, Collapse, Spin } from 'antd';
+import { Button, Card, Checkbox, Col, Collapse, Row, Spin, Table, Tooltip } from 'antd';
 import FormToDo from './FormToDo/formToDo';
 import FormList from './FormList/formList';
+import './index.css'
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { getValueDate } from '../../utils/Utils';
+
 
 @observer
 class HomeIndex extends React.Component {
   protected store;
-  protected lists;
   protected contentList;
   protected userId
 
@@ -54,7 +57,7 @@ class HomeIndex extends React.Component {
     return {
       lists: this.returnLists(this.store.lists),
       homeStore: this.store,
-      userId: this.userId
+      userId: this.userId,
     }
   }
 
@@ -75,17 +78,66 @@ class HomeIndex extends React.Component {
     return lists
   }
 
-  callback(key) {
-    console.log(key);
+  getToDosForEachList(key, store) {
+    if (key) {
+      key.forEach(k => {
+        const listId = k.split('-')[0]
+        store.getTodos(listId)
+      })
+    }
   }
-  
+
   render() {
     const { Panel } = Collapse;
+
     if (this.store.object && this.store.object.id) {
       this.contentList = {
         addTodo: <FormToDo {...this.buildProps()} />,
         addList: <FormList {...this.buildProps()} />,
       };
+
+      const tableButtons = {
+        title: '',
+        dataIndex: '',
+        width: '90px',
+        render: row => {
+          return (
+            <>
+              <Row gutter={8}>
+                <Col>
+                  <Tooltip title="Edit">
+                    <Button onClick={() => {}} icon={<EditOutlined />}></Button>
+                  </Tooltip>
+                </Col>
+                <Col>
+                  <Tooltip title="Delete">
+                    <Button onClick={() => this.store.deleteTodo(row.id)} danger={true} icon={<DeleteOutlined />}></Button>
+                  </Tooltip>
+                </Col>
+              </Row>
+            </>
+          )
+        }
+      }
+  
+      const columns = [
+        {
+          title: '',
+          dataIndex: 'completed',
+          width: '1px',
+          render: value => (<Checkbox checked={value} />)
+        }, {
+          title: 'To-Do',
+          dataIndex: 'description',
+        }, {
+          title: 'Date/Hour',
+          dataIndex: 'dtToDo',
+          width: '150px',
+          render: date => getValueDate(date)
+        },
+        tableButtons
+      ];
+
       return (
         <div style={{ margin: '20px 10% 20px' }}>
           <Card
@@ -98,20 +150,19 @@ class HomeIndex extends React.Component {
           >
             {this.contentList[this.state.key]}
           </Card>
-          <Collapse style={{margin: '20px 20px 0px'}} onChange={this.callback} expandIconPosition={'right'}>
-            {this.store.lists.map((list) => {
-              return (
-                <Panel header={list.name} key={`${list.id}-${list.name}`}>
-                  <p>asdfasdfasdfasdfasdfasdf</p>
+          {this.store.lists.map((list) => {
+            return (
+              <Collapse key={`collapse-${list.id}`} style={{margin: '20px 20px 0px'}} onChange={(key) => this.getToDosForEachList(key, this.store)} expandIconPosition={'right'}>
+                <Panel header={list.name} key={`${list.id}-${list.name}`} >
+                  <Table columns={columns} dataSource={this.store.todos[list.id]} size="small" />
                 </Panel>
-              )
-            })}
-            
-          </Collapse>
+              </Collapse>
+            )
+          })}
         </div>
       )
     } else {
-      return <Spin />
+      return <Spin className="spinner" />
     }
   }
 }
