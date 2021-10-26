@@ -5,14 +5,12 @@ import { Button, Card, Checkbox, Col, Collapse, Row, Spin, Table, Tooltip } from
 import FormToDo from './FormToDo/formToDo';
 import FormList from './FormList/formList';
 import './index.css'
-import { Link } from 'react-router-dom';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
-import DadosEstaticosService from '../../constants/dadosEstaticosService';
+import { getValueDate } from '../../utils/Utils';
 
 @observer
 class HomeIndex extends React.Component {
   protected store;
-  protected lists;
   protected contentList;
   protected userId
   protected todoEdit
@@ -81,13 +79,11 @@ class HomeIndex extends React.Component {
     return lists
   }
 
-  callback(key) {
-    debugger
-    console.log(key);
+  callback(key, store) {
     if (key) {
       key.forEach(k => {
         const listId = k.split('-')[0]
-        this.store.getTodos(listId)
+        store.getTodos(listId)
       })
     }
   }
@@ -144,30 +140,9 @@ class HomeIndex extends React.Component {
           title: 'Date/Hour',
           dataIndex: 'dtToDo',
           width: '150px',
+          render: date => getValueDate(date)
         },
         tableButtons
-      ];
-    
-  
-      const data = [
-        {
-          id: '1',
-          completed: false,
-          description: 'Tarefa 1 aqui',
-          dtToDo: '2021-11-14',
-        },
-        {
-          id: '2',
-          completed: true,
-          description: 'Tarefa 2 aqui Tarefa 2 Tarefa 2 Tarefa 2 aqui Tarefa 2 Tarefa 2',
-          dtToDo: '2021-10-14',
-        },
-        {
-          id: '3',
-          completed: false,
-          description: 'Tarefa 3 Tarefa 3 Tarefa 3',
-          dtToDo: '2022-01-04',
-        },
       ];
 
       return (
@@ -182,15 +157,15 @@ class HomeIndex extends React.Component {
           >
             {this.contentList[this.state.key]}
           </Card>
-          <Collapse style={{margin: '20px 20px 0px'}} onChange={this.callback} expandIconPosition={'right'}>
-            {this.store.lists.map((list) => {
-              return (
-                <Panel header={list.name} key={`${list.id}-${list.name}`}>
-                  <Table columns={columns} dataSource={data} size="small" />
+          {this.store.lists.map((list) => {
+            return (
+              <Collapse key={`collapse-${list.id}`} style={{margin: '20px 20px 0px'}} onChange={(key) => this.callback(key, this.store)} expandIconPosition={'right'}>
+                <Panel header={list.name} key={`${list.id}-${list.name}`} >
+                  <Table columns={columns} dataSource={this.store.todos[list.id]} size="small" />
                 </Panel>
-              )
-            })}
-          </Collapse>
+              </Collapse>
+            )
+          })}
         </div>
       )
     } else {

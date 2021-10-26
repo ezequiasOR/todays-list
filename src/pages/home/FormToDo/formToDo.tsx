@@ -10,7 +10,7 @@ import moment from 'moment';
 class FormToDo extends React.Component {
   formRef = React.createRef<FormInstance>()
   protected store
-  protected lists
+  protected lists = []
   protected toDoInfos
 
   constructor(props) {
@@ -22,7 +22,7 @@ class FormToDo extends React.Component {
   }
 
   onFinish = (token: string) => {
-    this.store.save(CrudActionType.CREATE, () => {}, () => {}, `list/${encodeURI(this.store.object.listId)}/todo`)
+    this.store.save(CrudActionType.CREATE, () => {}, () => {}, `todo`)
     this.onReset()
   }
 

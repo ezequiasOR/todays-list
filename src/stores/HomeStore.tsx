@@ -1,11 +1,11 @@
-import { action, makeObservable, observable, runInAction } from 'mobx';
+import { action, computed, makeObservable, observable, runInAction } from 'mobx';
 import BaseStore from './BaseStore';
 import UserService from '../services/user'
 import UserDomain from '../domains/user';
 import ToDoService from '../services/todo';
 class HomeStore extends BaseStore {
   @observable lists
-  @observable todos
+  @observable todos = {}
 
   constructor() {
     super(UserService)
@@ -44,14 +44,13 @@ class HomeStore extends BaseStore {
 
   @action
   getTodos(listId) {
-    debugger
     this.loading = true
-    ToDoService.get(this.pathParams, `/list/${encodeURI(listId)}/todo`)
+    ToDoService.get(this.pathParams, `list/${encodeURI(listId)}/todo`)
       .then(response => {
         runInAction(() => {
           this.loading = false
           if (response && response.data) {
-            this.todos.listId = response.data             
+            this.todos[listId] = response.data
           }
         })
       })
@@ -64,7 +63,6 @@ class HomeStore extends BaseStore {
 
   @action
   deleteTodo(todoId) {
-    debugger
     this.loading = true
     ToDoService.delete(this.pathParams, `todo/${todoId}`)
       .then(response => {
@@ -78,7 +76,18 @@ class HomeStore extends BaseStore {
         })
       })
   }
-  
+
+  @computed
+  get todoWithKey() {
+    debugger
+    return Object.keys(this.todos).forEach((key) => {
+      if (!this.todos[key].hasOwnProperty('key')) {
+        this.todos[key].key = `todo-${key}`;
+      }
+      return this.todos[key];
+    });
+  }
+
 }
 
 export default HomeStore
