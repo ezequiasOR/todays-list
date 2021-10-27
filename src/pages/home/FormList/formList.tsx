@@ -20,9 +20,12 @@ class FormList extends React.Component {
   }
   
   onFinish = (token: string) => {
-    this.store.save(CrudActionType.CREATE, () => {}, () => {}, `user/${encodeURI(this.userId)}/list`)
+    this.store.save(
+      CrudActionType.CREATE, 
+      () => this.homeStore.getLists(this.userId), 
+      () => {}, `user/${encodeURI(this.userId)}/list`
+    )
     this.onReset()
-    this.homeStore.getLists(this.userId)
   }
 
   onReset = () => {

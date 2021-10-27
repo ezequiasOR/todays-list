@@ -86,7 +86,11 @@ class ServiceBase {
 
   private _update = (object: { id?: string | number }, pathParams: string[] = [], endpoint: string | null = null) => {
     const endpointBase = this.getEndpointWithPathParams(pathParams, endpoint);
-    return axios.put(encodeURI(`${this.host}/${endpointBase}/${object.id}`), object);
+    return axios.put(encodeURI(`${this.host}/${endpointBase}/${object.id}`), object, {
+      headers: {
+        "Authorization": `Bearer token`,
+      },
+    });
   };
 
   getEndpointWithPathParams(params: string[], overrideEndpoint: string | null = null) {
