@@ -9,18 +9,22 @@ import CrudActionType from '../../../utils/CrudActionType';
 class FormToDo extends React.Component {
   formRef = React.createRef<FormInstance>()
   protected store
+  protected homeStore
   protected lists = []
-  protected toDoInfos
 
   constructor(props) {
     super(props)
     this.lists = props.lists
-    this.toDoInfos = props.toDoInfos
+    this.homeStore = props.homeStore
     this.store = new ToDoStore()
   }
 
   onFinish = (token: string) => {
-    this.store.save(CrudActionType.CREATE, () => {}, () => {}, `todo`)
+    this.store.save(
+      CrudActionType.CREATE,
+      () => this.homeStore.getTodos(this.store.object.listId),
+      () => {}, `todo`
+    )
     this.onReset()
   }
 

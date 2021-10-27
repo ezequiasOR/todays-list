@@ -8,7 +8,6 @@ import './index.css'
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { getValueDate } from '../../utils/Utils';
 
-
 @observer
 class HomeIndex extends React.Component {
   protected store;
@@ -16,7 +15,8 @@ class HomeIndex extends React.Component {
   protected userId
 
   state = {
-    key: 'addTodo'
+    key: 'addTodo',
+    refresh: false
   };
   
   tabList = [
@@ -40,13 +40,6 @@ class HomeIndex extends React.Component {
   componentDidMount() {
     this.store.init()
     this.store.getLists(this.userId)
-  }
-  
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.key !== this.state.key) {
-      this.store.init()
-      this.store.getLists(this.userId)
-    }
   }
 
   onTabChange = (key, type) => {
@@ -87,6 +80,12 @@ class HomeIndex extends React.Component {
     }
   }
 
+  toggleChecked(toDo, store) {
+    this.setState({ refresh: !this.state.refresh });
+    toDo.completed = !toDo.completed
+    store.toggleCheckedToDo(toDo)
+  };
+
   render() {
     const { Panel } = Collapse;
 
@@ -111,7 +110,11 @@ class HomeIndex extends React.Component {
                 </Col>
                 <Col>
                   <Tooltip title="Delete">
-                    <Button onClick={() => this.store.deleteTodo(row.id)} danger={true} icon={<DeleteOutlined />}></Button>
+                    <Button
+                      onClick={() => this.store.deleteTodo(row.id)}
+                      danger={true}
+                      icon={<DeleteOutlined />}
+                    />
                   </Tooltip>
                 </Col>
               </Row>
@@ -123,10 +126,16 @@ class HomeIndex extends React.Component {
       const columns = [
         {
           title: '',
-          dataIndex: 'completed',
-          width: '1px',
-          render: value => (<Checkbox checked={value} />)
-        }, {
+          dataIndex: '',
+          width: '5px',
+          render: row => (
+            <Checkbox
+              checked={row.completed}
+              onChange={() => this.toggleChecked(row, this.store)}
+            />
+          )
+        },
+        {
           title: 'To-Do',
           dataIndex: 'description',
         }, {
@@ -152,9 +161,18 @@ class HomeIndex extends React.Component {
           </Card>
           {this.store.lists.map((list) => {
             return (
-              <Collapse key={`collapse-${list.id}`} style={{margin: '20px 20px 0px'}} onChange={(key) => this.getToDosForEachList(key, this.store)} expandIconPosition={'right'}>
+              <Collapse
+                key={`collapse-${list.id}`}
+                style={{margin: '20px 20px 0px'}}
+                onChange={(key) => this.getToDosForEachList(key, this.store)}
+                expandIconPosition={'right'}
+              >
                 <Panel header={list.name} key={`${list.id}-${list.name}`} >
-                  <Table columns={columns} dataSource={this.store.todos[list.id]} size="small" />
+                  <Table
+                    columns={columns}
+                    dataSource={this.store.todos[list.id]}
+                    size="small"
+                  />
                 </Panel>
               </Collapse>
             )

@@ -3,6 +3,7 @@ import BaseStore from './BaseStore';
 import UserService from '../services/user'
 import UserDomain from '../domains/user';
 import ToDoService from '../services/todo';
+import CrudActionType from '../utils/CrudActionType';
 class HomeStore extends BaseStore {
   @observable lists
   @observable todos = {}
@@ -68,6 +69,9 @@ class HomeStore extends BaseStore {
       .then(response => {
         runInAction(() => {
           this.loading = false
+          if (response && response.data) {
+            this.getTodos(response.data.listId)
+          }
         })
       })
       .catch(error => {
@@ -77,6 +81,19 @@ class HomeStore extends BaseStore {
       })
   }
 
+  @action
+  toggleCheckedToDo(toDo) {
+    this.loading = true
+    try {
+       ToDoService.save(toDo, CrudActionType.UPDATE, this.pathParams, `todo`)
+    } catch (error) {
+      console.error(error)
+    } finally {
+      runInAction(() => {
+        this.loading = false
+      });
+    }
+  }
 }
 
 export default HomeStore
