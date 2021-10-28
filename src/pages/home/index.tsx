@@ -13,6 +13,7 @@ class HomeIndex extends React.Component {
   protected store;
   protected contentList;
   protected userId
+  protected toDoEdit = {}
 
   state = {
     key: 'addTodo',
@@ -46,11 +47,12 @@ class HomeIndex extends React.Component {
     this.setState({ [type]: key });
   };
   
-  buildProps() {
+  buildProps(toDoEdit = {}) {
     return {
       lists: this.returnLists(this.store.lists),
       homeStore: this.store,
       userId: this.userId,
+      toDoEdit: toDoEdit
     }
   }
 
@@ -86,12 +88,15 @@ class HomeIndex extends React.Component {
     store.toggleCheckedToDo(toDo)
   };
 
+  editTodo(toDo) {
+    this.toDoEdit = toDo
+  }
+
   render() {
     const { Panel } = Collapse;
-
     if (this.store.object && this.store.object.id) {
       this.contentList = {
-        addTodo: <FormToDo {...this.buildProps()} />,
+        addTodo: <FormToDo {...this.buildProps(this.toDoEdit)} />,
         addList: <FormList {...this.buildProps()} />,
       };
 
@@ -105,7 +110,10 @@ class HomeIndex extends React.Component {
               <Row gutter={8}>
                 <Col>
                   <Tooltip title="Edit">
-                    <Button onClick={() => {}} icon={<EditOutlined />}></Button>
+                    <Button
+                      onClick={() => {this.editTodo(row)}}
+                      icon={<EditOutlined />}
+                    />
                   </Tooltip>
                 </Col>
                 <Col>
