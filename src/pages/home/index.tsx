@@ -13,14 +13,14 @@ class HomeIndex extends React.Component {
   protected store;
   protected contentList;
   protected userId
-  protected toDoEdit = {}
+  protected toDoEdit
 
   state = {
     key: 'addTodo',
     refresh: false
   };
   
-  tabList = [
+  tabListAdd = [
     {
       key: 'addTodo',
       tab: 'Add ToDo',
@@ -28,8 +28,19 @@ class HomeIndex extends React.Component {
     {
       key: 'addList',
       tab: 'Add List',
-    },
+    }
   ];
+
+  tabListEdit = [
+    {
+      key: 'editTodo',
+      tab: 'Edit ToDo',
+    },
+    {
+      key: 'editList',
+      tab: 'Edit List',
+    }
+  ]
 
   constructor(props) {
     super(props)
@@ -51,8 +62,9 @@ class HomeIndex extends React.Component {
     return {
       lists: this.returnLists(this.store.lists),
       homeStore: this.store,
+      homeIndex: this,
       userId: this.userId,
-      toDoEdit: toDoEdit
+      toDoObj: toDoEdit
     }
   }
 
@@ -90,14 +102,17 @@ class HomeIndex extends React.Component {
 
   editTodo(toDo) {
     this.toDoEdit = toDo
+    this.setState({ key: 'editTodo' });
   }
 
   render() {
     const { Panel } = Collapse;
     if (this.store.object && this.store.object.id) {
       this.contentList = {
-        addTodo: <FormToDo {...this.buildProps(this.toDoEdit)} />,
+        addTodo: <FormToDo {...this.buildProps()} />,
         addList: <FormList {...this.buildProps()} />,
+        editTodo: <FormToDo {...this.buildProps(this.toDoEdit)} />,
+        editList: <FormList {...this.buildProps()} />, // TODO: edit list
       };
 
       const tableButtons = {
@@ -159,13 +174,16 @@ class HomeIndex extends React.Component {
         <div style={{ margin: '20px 10% 20px' }}>
           <Card
             style={{ margin: '20px 20px 0px' }}
-            tabList={this.tabList}
+            tabList={
+              (this.state.key === 'addTodo' || this.state.key === 'addList') ?
+              this.tabListAdd : this.tabListEdit
+            }
             activeTabKey={this.state.key}
             onTabChange={key => {
               this.onTabChange(key, 'key');
             }}
           >
-            {this.contentList[this.state.key]}
+            {this.contentList[this.state.key]}            
           </Card>
           {this.store.lists.map((list) => {
             return (

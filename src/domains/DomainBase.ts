@@ -1,8 +1,8 @@
-import { makeObservable, observable } from "mobx";
+import { makeObservable } from "mobx";
 
 abstract class DomainBase {
-  @observable
-  errors: Record<string, string> = {};
+  // @observable
+  // errors: Record<string, string> = {};
   constructor() {
     makeObservable(this)
   }

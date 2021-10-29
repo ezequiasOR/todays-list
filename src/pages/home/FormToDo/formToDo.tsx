@@ -5,34 +5,55 @@ import { FormInstance } from 'antd/es/form';
 import ToDoStore from '../../../stores/todoStore'
 import CrudActionType from '../../../utils/CrudActionType';
 import { SaveFilled } from '@ant-design/icons';
+import moment from 'moment';
 
 @observer
 class FormToDo extends React.Component {
   formRef = React.createRef<FormInstance>()
   protected store
   protected homeStore
+  protected homeIndex
   protected lists = []
-  protected toDoEdit
+  protected toDoObj
 
   constructor(props) {
     super(props)
+    debugger
     this.lists = props.lists
-    this.toDoEdit = props.toDoEdit
+    this.toDoObj = props.toDoObj
     this.homeStore = props.homeStore
+    this.homeIndex = props.homeIndex
     this.store = new ToDoStore()
   }
 
+  componentDidMount() {
+    if (this.toDoObj) {
+      this.store.init(this.toDoObj)
+    }
+  }
+
   onFinish = (token: string) => {
-    this.store.save(
-      CrudActionType.CREATE,
-      () => this.homeStore.getTodos(this.store.object.listId),
-      () => {}, `todo`
-    )
+    if (!this.toDoObj) {
+      this.store.save(
+        CrudActionType.CREATE,
+        () => this.homeStore.getTodos(this.store.object.listId),
+        () => {}, `todo`
+      )
+    } else {
+      this.store.save(
+        CrudActionType.UPDATE,
+        () => this.homeStore.getTodos(this.toDoObj.listId),
+        () => {}, `todo`
+      )
+    }
     this.onReset()
   }
 
   onReset = () => {
+    debugger
     this.formRef.current!.resetFields();
+    this.homeIndex.toDoEdit = undefined
+    this.homeIndex.setState({ key: 'addTodo'})
   };
 
   render() {
@@ -47,7 +68,7 @@ class FormToDo extends React.Component {
             <Form.Item label="To do" name={'description'} >
               <Input
                 placeholder={'Type the ToDo'}
-                defaultValue={this.toDoEdit ? this.toDoEdit.description: undefined}
+                defaultValue={this.toDoObj ? this.toDoObj.description: undefined}
                 onChange={value => 
                   this.store.updateAttributeDecoratorKeyEventValue('description', value)
                 }
@@ -58,7 +79,7 @@ class FormToDo extends React.Component {
             <Form.Item label="List" name={'listId'}>
               <Select
                 placeholder={'Choose the ToDo List'}
-                defaultValue={this.lists && this.toDoEdit ? this.toDoEdit.listId : undefined}
+                defaultValue={this.lists && this.toDoObj ? this.toDoObj.listId : undefined}
                 options={this.lists}
                 onChange={value => 
                   this.store.updateAttributeDecoratorKeyValue('listId', value)
@@ -71,6 +92,7 @@ class FormToDo extends React.Component {
               <DatePicker
                 showTime={true}
                 showSecond={false}
+                defaultValue={this.toDoObj ? moment(this.toDoObj.dtToDo) : undefined}
                 onChange={dt => 
                   this.store.updateAttributeDecoratorKeyValue('dtToDo', dt)
                 }
