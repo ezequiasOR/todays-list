@@ -172,7 +172,7 @@ class HomeIndex extends React.Component {
               this.onTabChange(key, 'key');
             }}
           >
-            {this.contentList[this.state.key]}            
+            {this.contentList[this.state.key]}
           </Card>
           {this.store.lists.map((list) => {
             return (

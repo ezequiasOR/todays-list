@@ -1,8 +1,6 @@
 import { makeObservable } from "mobx";
 
 abstract class DomainBase {
-  // @observable
-  // errors: Record<string, string> = {};
   constructor() {
     makeObservable(this)
   }
