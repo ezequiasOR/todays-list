@@ -1,11 +1,11 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 import HomeStore from '../../stores/HomeStore';
-import { Button, Card, Checkbox, Col, Collapse, Row, Spin, Table, Tooltip } from 'antd';
+import { Button, Card, Checkbox, Col, Collapse, Dropdown, Menu, Row, Spin, Table, Tooltip } from 'antd';
 import FormToDo from './FormToDo/formToDo';
 import FormList from './FormList/formList';
 import './index.css'
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { EditOutlined, DeleteOutlined, MenuOutlined } from '@ant-design/icons';
 import { getValueDate } from '../../utils/Utils';
 
 @observer
@@ -14,6 +14,7 @@ class HomeIndex extends React.Component {
   protected contentList;
   protected userId
   protected toDoEdit
+  protected listEdit
 
   state = {
     key: 'addTodo',
@@ -47,13 +48,38 @@ class HomeIndex extends React.Component {
     this.setState({ [type]: key });
   };
   
-  buildProps(toDoEdit = {}) {
+  listOptions = (list) => {
+    return (
+      <Menu>
+        <Menu.Item key="editList" icon={<EditOutlined />} onClick={() => this.editList(list)} >
+          Edit list
+        </Menu.Item>
+        <Menu.Item
+          key="deleteList"
+          danger
+          icon={<DeleteOutlined />}
+          onClick={() => this.store.deleteList(list.id)}
+        >
+          Delete List
+        </Menu.Item>
+      </Menu>
+    )
+  }
+
+  listExtra = (listId) => (
+    <Dropdown overlay={this.listOptions(listId)}>
+      <MenuOutlined />
+    </Dropdown>
+  );
+
+  buildProps(toDoEdit = {}, listEdit = {}) {
     return {
       lists: this.returnLists(this.store.lists),
       homeStore: this.store,
       homeIndex: this,
       userId: this.userId,
-      toDoObj: toDoEdit
+      toDoObj: toDoEdit,
+      listObj: listEdit
     }
   }
 
@@ -93,10 +119,20 @@ class HomeIndex extends React.Component {
     this.toDoEdit = toDo
     this.setState({ key: 'addList' });
   }
+  
+  editList(list) {
+    this.listEdit = list
+    this.setState({ key: 'addList' });
+  }
 
   resetTodo() {
     this.toDoEdit = undefined
     this.setState({ key: 'addList' });
+  }
+
+  resetList() {
+    this.listEdit = undefined
+    this.setState({ key: 'addTodo' });
   }
 
   render() {
@@ -104,7 +140,7 @@ class HomeIndex extends React.Component {
     if (this.store.object && this.store.object.id) {
       this.contentList = {
         addTodo: <FormToDo {...this.buildProps(this.toDoEdit)} />,
-        addList: <FormList {...this.buildProps()} />,
+        addList: <FormList {...this.buildProps(undefined, this.listEdit)} />,
       };
 
       const tableButtons = {
@@ -182,7 +218,11 @@ class HomeIndex extends React.Component {
                 onChange={(key) => this.getToDosForEachList(key, this.store)}
                 expandIconPosition={'right'}
               >
-                <Panel header={list.name} key={`${list.id}-${list.name}`} >
+                <Panel
+                  header={list.name}
+                  key={`${list.id}-${list.name}`}
+                  extra={this.listExtra(list)}
+                >
                   <Table
                     columns={columns}
                     dataSource={this.store.todos[list.id]}

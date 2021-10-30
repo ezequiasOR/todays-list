@@ -8,28 +8,47 @@ import ListStore from '../../../stores/ListStore';
 @observer
 class FormList extends React.Component {
   formRef = React.createRef<FormInstance>()
-  
   protected store
+  protected homeIndex
   protected homeStore
   protected userId
+  protected listObj
+
   constructor(props) {
     super(props)
+    this.homeIndex = props.homeIndex
     this.homeStore = props.homeStore
+    this.listObj = props.listObj
     this.userId = props.userId
     this.store = new ListStore()
   }
   
+  componentDidMount() {
+    if (this.listObj) {
+      this.store.init(this.listObj)
+    }
+  }
+  
   onFinish = (token: string) => {
-    this.store.save(
-      CrudActionType.CREATE, 
-      () => this.homeStore.getLists(this.userId), 
-      () => {}, `user/${encodeURI(this.userId)}/list`
-    )
+    if (this.listObj && this.listObj.id) {
+      this.store.save(
+        CrudActionType.UPDATE,
+        () => this.homeStore.getLists(this.userId),
+        () => {}, `list`
+      )
+    } else {
+      this.store.save(
+        CrudActionType.CREATE,
+        () => this.homeStore.getLists(this.userId),
+        () => {}, `user/${encodeURI(this.userId)}/list`
+      )
+    }
     this.onReset()
   }
 
   onReset = () => {
     this.formRef.current!.resetFields();
+    this.homeIndex.resetList()
   };
 
   render() {
@@ -44,6 +63,7 @@ class FormList extends React.Component {
             <Form.Item label="List name" name={'name'} >
               <Input
                 placeholder={'Type the list name'}
+                defaultValue={this.listObj ? this.listObj.name: undefined}
                 onChange={value =>
                   this.store.updateAttributeDecoratorKeyEventValue('name', value)
                 }

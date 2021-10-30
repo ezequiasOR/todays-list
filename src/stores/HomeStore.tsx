@@ -3,6 +3,7 @@ import BaseStore from './BaseStore';
 import UserService from '../services/user'
 import UserDomain from '../domains/user';
 import ToDoService from '../services/todo';
+import ListService from '../services/list';
 import CrudActionType from '../utils/CrudActionType';
 
 class HomeStore extends BaseStore {
@@ -15,6 +16,8 @@ class HomeStore extends BaseStore {
     this.getLists = this.getLists.bind(this)
     this.getTodos = this.getTodos.bind(this)
     this.deleteTodo = this.deleteTodo.bind(this)
+    this.deleteList = this.deleteList.bind(this)
+    this.toggleCheckedToDo = this.toggleCheckedToDo.bind(this)
   }
 
   initializeData() {
@@ -94,6 +97,25 @@ class HomeStore extends BaseStore {
         this.loading = false
       });
     }
+  }
+
+  @action
+  deleteList(listId) {
+    this.loading = true
+    ListService.delete(this.pathParams, `list/${listId}`)
+      .then(response => {
+        runInAction(() => {
+          this.loading = false
+          if (response && response.data) {
+            this.getLists(response.data.userId)
+          }
+        })
+      })
+      .catch(error => {
+        runInAction(() => {
+          this.loading = false
+        })
+      })
   }
 }
 
