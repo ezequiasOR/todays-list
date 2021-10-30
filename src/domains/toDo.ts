@@ -8,9 +8,12 @@ class ToDoDomain extends DomainBase {
   @observable dtToDo
   @observable completed = false
   
-  constructor() {
+  constructor(data?: Record<string, number>) {
     super()
     makeObservable(this)
+    if (data) {
+      this.setData(data)
+    }
   }
 }
 
