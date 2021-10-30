@@ -18,7 +18,6 @@ class FormToDo extends React.Component {
 
   constructor(props) {
     super(props)
-    debugger
     this.lists = props.lists
     this.toDoObj = props.toDoObj
     this.homeStore = props.homeStore
@@ -33,16 +32,16 @@ class FormToDo extends React.Component {
   }
 
   onFinish = (token: string) => {
-    if (!this.toDoObj) {
+    if (this.toDoObj && this.toDoObj.id) {
       this.store.save(
-        CrudActionType.CREATE,
-        () => this.homeStore.getTodos(this.store.object.listId),
+        CrudActionType.UPDATE,
+        () => this.homeStore.getTodos(this.toDoObj.listId),
         () => {}, `todo`
       )
     } else {
       this.store.save(
-        CrudActionType.UPDATE,
-        () => this.homeStore.getTodos(this.toDoObj.listId),
+        CrudActionType.CREATE,
+        () => this.homeStore.getTodos(this.store.object.listId),
         () => {}, `todo`
       )
     }
@@ -50,10 +49,8 @@ class FormToDo extends React.Component {
   }
 
   onReset = () => {
-    debugger
     this.formRef.current!.resetFields();
-    this.homeIndex.toDoEdit = undefined
-    this.homeIndex.setState({ key: 'addTodo'})
+    this.homeIndex.resetTodo()
   };
 
   render() {

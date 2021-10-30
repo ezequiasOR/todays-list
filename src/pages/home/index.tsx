@@ -20,7 +20,7 @@ class HomeIndex extends React.Component {
     refresh: false
   };
   
-  tabListAdd = [
+  tabList = [
     {
       key: 'addTodo',
       tab: 'Add ToDo',
@@ -30,17 +30,6 @@ class HomeIndex extends React.Component {
       tab: 'Add List',
     }
   ];
-
-  tabListEdit = [
-    {
-      key: 'editTodo',
-      tab: 'Edit ToDo',
-    },
-    {
-      key: 'editList',
-      tab: 'Edit List',
-    }
-  ]
 
   constructor(props) {
     super(props)
@@ -102,17 +91,20 @@ class HomeIndex extends React.Component {
 
   editTodo(toDo) {
     this.toDoEdit = toDo
-    this.setState({ key: 'editTodo' });
+    this.setState({ key: 'addList' });
+  }
+
+  resetTodo() {
+    this.toDoEdit = undefined
+    this.setState({ key: 'addList' });
   }
 
   render() {
     const { Panel } = Collapse;
     if (this.store.object && this.store.object.id) {
       this.contentList = {
-        addTodo: <FormToDo {...this.buildProps()} />,
+        addTodo: <FormToDo {...this.buildProps(this.toDoEdit)} />,
         addList: <FormList {...this.buildProps()} />,
-        editTodo: <FormToDo {...this.buildProps(this.toDoEdit)} />,
-        editList: <FormList {...this.buildProps()} />, // TODO: edit list
       };
 
       const tableButtons = {
@@ -174,10 +166,7 @@ class HomeIndex extends React.Component {
         <div style={{ margin: '20px 10% 20px' }}>
           <Card
             style={{ margin: '20px 20px 0px' }}
-            tabList={
-              (this.state.key === 'addTodo' || this.state.key === 'addList') ?
-              this.tabListAdd : this.tabListEdit
-            }
+            tabList={this.tabList}
             activeTabKey={this.state.key}
             onTabChange={key => {
               this.onTabChange(key, 'key');
