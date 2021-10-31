@@ -5,11 +5,13 @@ class ListDomain extends DomainBase {
   @observable id
   @observable name
   @observable userId
-  @observable toDos
   
-  constructor() {
+  constructor(data?: Record<string, number>) {
     super()
     makeObservable(this)
+    if (data) {
+      this.setData(data)
+    }
   }
 }
 
