@@ -55,7 +55,6 @@ class ServiceBase {
 
 
   /**
-   * Efetua a chamada de importação de dados a partir de uma planilha Excel.
    * @param {object} object - Objeto a ser passado para a API de persistência de dados.
    * @param {string} actionType - Tipo de ação com o objeto passado (valores possíveis: CrudActionType.CREATE, CrudActionType.UPDATE).
    * @param {array}  pathParams - Parâmetros de URL para serem colocados no endpoint a ser chamado.
