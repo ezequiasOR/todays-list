@@ -5,6 +5,7 @@ import { Button, Col, Form, Input, Row } from 'antd';
 import { FormInstance } from 'antd/es/form';
 import UserStore from '../../stores/UserStore';
 import { SaveFilled } from '@ant-design/icons';
+import CrudActionType from '../../utils/CrudActionType';
 
 @observer
 class SignUpForm extends React.Component {
@@ -19,7 +20,12 @@ class SignUpForm extends React.Component {
   componentDidMount() {}
 
   onFinish = () => {
-    // TODO
+    this.store.save(
+      CrudActionType.CREATE,
+      () => {},
+      () => {},
+      `signup`
+    )
     this.onReset()
   }
 
