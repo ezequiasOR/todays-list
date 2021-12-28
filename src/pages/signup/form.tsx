@@ -17,8 +17,6 @@ class SignUpForm extends React.Component {
     this.store = new UserStore()
   }
 
-  componentDidMount() {}
-
   onFinish = () => {
     this.store.save(
       CrudActionType.CREATE,

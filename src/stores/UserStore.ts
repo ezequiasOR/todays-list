@@ -5,7 +5,6 @@ import UserService from '../services/user'
 class UserStore extends BaseStore {
   constructor() {
     super(UserService)
-
   }
 
   initializeData() {
