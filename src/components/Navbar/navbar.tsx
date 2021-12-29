@@ -5,6 +5,7 @@ import './navbar.css'
 import { Menu, Row } from 'antd';
 import { HomeOutlined, LogoutOutlined, MenuOutlined, UserOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+import { removeUserSession } from '../../utils/Utils';
 
 const { SubMenu } = Menu;
 
@@ -30,7 +31,7 @@ class Navbar extends React.Component {
             <Menu.Item key="profile" icon={<UserOutlined />}>
               <Link to="/profile">Profile</Link>
             </Menu.Item>
-            <Menu.Item key="logout" icon={<LogoutOutlined />}>Logout</Menu.Item>
+            <Menu.Item key="logout" onClick={removeUserSession} icon={<LogoutOutlined />}>Logout</Menu.Item>
           </SubMenu>
         </Menu>
       </Row>

@@ -53,6 +53,14 @@ class ServiceBase {
     });
   }
 
+  login(
+    object: { id?: string | number },
+    pathParams: string[] = [],
+    endpoint: string | null = null
+  ) {
+    const endpointBase = this.getEndpointWithPathParams(pathParams, endpoint);
+    return axios.post(`${this.host}/${endpointBase}`, object);
+  }
 
   /**
    * @param {object} object - Objeto a ser passado para a API de persistência de dados.

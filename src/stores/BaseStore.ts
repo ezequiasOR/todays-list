@@ -36,6 +36,41 @@ abstract class BaseStore<D extends DomainBase = DomainBase> {
   }
 
   /**
+   * Login
+   * @param {*} sucessCallback função a ser executada em caso de sucesso
+   * @param {*} errorCallback  função a ser executada em caso de erro
+   * @param {string} endpoint - Se passado, usa esse endpoint, ao invés do endpoint padrão do Service.
+   */
+   @action
+   async login(
+     sucessCallback?: (token, user) => void,
+     errorCallback?: (msg?: string) => void,
+     endpoint?: string | null
+   ) {
+     this.loading = true;
+     try {
+      //  this.validateObject();
+      //  if (Object.keys(this.object.errors).length === 0) {
+        const response = await this.service.login(this.object, this.pathParams, endpoint);
+        if (sucessCallback && response && response.data && response.data.accessToken) {
+          sucessCallback(response.data.accessToken, undefined);
+        }
+        // } else {
+        //    Utils.showMessageError('Campos obrigatórios não preenchidos!', 'Erro de Validação');
+        // }
+     } catch (error) {
+       console.error(error);
+       if (errorCallback) {
+        //  errorCallback(Utils.getErrorMessage(error, 'Ocorreu um erro ao Salvar.'));
+       }
+     } finally {
+       runInAction(() => {
+         this.loading = false;
+       });
+     }
+   }
+
+  /**
    * Salva um dominio
    * @param {*} crudAction Ação a ser realizada(Create, update or delete)
    * @param {*} sucessCallback função a ser executada em caso de sucesso

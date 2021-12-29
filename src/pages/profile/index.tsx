@@ -16,7 +16,7 @@ class profileIndex extends React.Component {
   render() {
     return (
       <div>
-        <p>Profile</p>
+        <p>Developing...</p>
       </div>
     )
   }
