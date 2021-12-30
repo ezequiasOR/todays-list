@@ -52,8 +52,8 @@ abstract class BaseStore<D extends DomainBase = DomainBase> {
       //  this.validateObject();
       //  if (Object.keys(this.object.errors).length === 0) {
         const response = await this.service.login(this.object, this.pathParams, endpoint);
-        if (sucessCallback && response && response.data && response.data.accessToken) {
-          sucessCallback(response.data.accessToken, undefined);
+        if (sucessCallback && response && response.data && response.data.token && response.data.token.accessToken && response.data.user) {
+          sucessCallback(response.data.token.accessToken, response.data.user);
         }
         // } else {
         //    Utils.showMessageError('Campos obrigatórios não preenchidos!', 'Erro de Validação');
