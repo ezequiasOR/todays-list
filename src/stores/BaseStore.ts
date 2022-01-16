@@ -1,33 +1,33 @@
-import { action, makeObservable, observable, runInAction } from "mobx";
-import DomainBase from "../domains/DomainBase";
+import { action, makeObservable, observable, runInAction } from 'mobx'
+import DomainBase from '../domains/DomainBase'
 import ServiceBase from '../services/serviceBase'
 
 abstract class BaseStore<D extends DomainBase = DomainBase> {
   @observable
-  loading = false;
+  loading = false
 
   @observable
   object = this.initializeData()
 
   @observable
-  pathParams: string[] = [];
+  pathParams: string[] = []
 
-  protected service;
+  protected service
   constructor(service: ServiceBase) {
     this.service = service
     makeObservable(this)
   }
 
-  abstract initializeData(): D;
+  abstract initializeData(): D
 
   @action
   reset() {
-    this.object = this.initializeData();
+    this.object = this.initializeData()
   }
 
   @action
   updateAttributeDecoratorKeyValue(key, value) {
-    this.object[key] = value;
+    this.object[key] = value
   }
 
   @action
@@ -41,34 +41,41 @@ abstract class BaseStore<D extends DomainBase = DomainBase> {
    * @param {*} errorCallback  função a ser executada em caso de erro
    * @param {string} endpoint - Se passado, usa esse endpoint, ao invés do endpoint padrão do Service.
    */
-   @action
-   async login(
-     sucessCallback?: (token, user) => void,
-     errorCallback?: (msg?: string) => void,
-     endpoint?: string | null
-   ) {
-     this.loading = true;
-     try {
+  @action
+  async login(
+    sucessCallback?: (token, user) => void,
+    errorCallback?: (msg?: string) => void,
+    endpoint?: string | null
+  ) {
+    this.loading = true
+    try {
       //  this.validateObject();
       //  if (Object.keys(this.object.errors).length === 0) {
-        const response = await this.service.login(this.object, this.pathParams, endpoint);
-        if (sucessCallback && response && response.data && response.data.token && response.data.token.accessToken && response.data.user) {
-          sucessCallback(response.data.token.accessToken, response.data.user);
-        }
-        // } else {
-        //    Utils.showMessageError('Campos obrigatórios não preenchidos!', 'Erro de Validação');
-        // }
-     } catch (error) {
-       console.error(error);
-       if (errorCallback) {
+      const response = await this.service.login(this.object, this.pathParams, endpoint)
+      if (
+        sucessCallback &&
+        response &&
+        response.data &&
+        response.data.token &&
+        response.data.token.accessToken &&
+        response.data.user
+      ) {
+        sucessCallback(response.data.token.accessToken, response.data.user)
+      }
+      // } else {
+      //    Utils.showMessageError('Campos obrigatórios não preenchidos!', 'Erro de Validação');
+      // }
+    } catch (error) {
+      console.error(error)
+      if (errorCallback) {
         //  errorCallback(Utils.getErrorMessage(error, 'Ocorreu um erro ao Salvar.'));
-       }
-     } finally {
-       runInAction(() => {
-         this.loading = false;
-       });
-     }
-   }
+      }
+    } finally {
+      runInAction(() => {
+        this.loading = false
+      })
+    }
+  }
 
   /**
    * Salva um dominio
@@ -77,37 +84,37 @@ abstract class BaseStore<D extends DomainBase = DomainBase> {
    * @param {*} errorCallback  função a ser executada em caso de erro
    * @param {string} endpoint - Se passado, usa esse endpoint, ao invés do endpoint padrão do Service.
    */
-   @action
-   async save(
-     crudAction: string,
-     sucessCallback?: () => void,
-     errorCallback?: (msg?: string) => void,
-     endpoint?: string | null
-   ) {
-     this.loading = true;
-     try {
+  @action
+  async save(
+    crudAction: string,
+    sucessCallback?: () => void,
+    errorCallback?: (msg?: string) => void,
+    endpoint?: string | null
+  ) {
+    this.loading = true
+    try {
       //  this.validateObject();
       //  if (Object.keys(this.object.errors).length === 0) {
-        await this.service.save(this.object, crudAction, this.pathParams, endpoint);
-        if (sucessCallback) {
-          sucessCallback();
-        }
-        // } else {
-        //    Utils.showMessageError('Campos obrigatórios não preenchidos!', 'Erro de Validação');
-        // }
-     } catch (error) {
-       console.error(error);
-       if (errorCallback) {
+      await this.service.save(this.object, crudAction, this.pathParams, endpoint)
+      if (sucessCallback) {
+        sucessCallback()
+      }
+      // } else {
+      //    Utils.showMessageError('Campos obrigatórios não preenchidos!', 'Erro de Validação');
+      // }
+    } catch (error) {
+      console.error(error)
+      if (errorCallback) {
         //  errorCallback(Utils.getErrorMessage(error, 'Ocorreu um erro ao Salvar.'));
-       }
-     } finally {
-       runInAction(() => {
-         this.loading = false;
-       });
-     }
-   }
+      }
+    } finally {
+      runInAction(() => {
+        this.loading = false
+      })
+    }
+  }
 
-   /**
+  /**
    *
    * @param {string} id Id do registro a ser buscado
    * @param {string} endpoint - Se passado, usa esse endpoint, ao invés do endpoint padrão do Service.
@@ -121,20 +128,20 @@ abstract class BaseStore<D extends DomainBase = DomainBase> {
     endpoint?: string | null,
     onSuccess?: () => void,
     onError = (error: Record<string, unknown>) => {}
-      // Utils.showMessageError(`Ao recuperar o registro ocorreu o erro: ${Utils.trataMensagemDeErro(error)}`)
+    // Utils.showMessageError(`Ao recuperar o registro ocorreu o erro: ${Utils.trataMensagemDeErro(error)}`)
   ) {
-    this.loading = true;
+    this.loading = true
     try {
-      const response = await this.service.getById(id, this.pathParams, endpoint);
+      const response = await this.service.getById(id, this.pathParams, endpoint)
       runInAction(() => {
-        this.object = Reflect.construct(this.object.constructor, [response.data]);
-        onSuccess && onSuccess();
-      });
+        this.object = Reflect.construct(this.object.constructor, [response.data])
+        onSuccess && onSuccess()
+      })
     } catch (error) {
-      console.error(error);
-      onError && onError(error as Record<string, unknown>);
+      console.error(error)
+      onError && onError(error as Record<string, unknown>)
     } finally {
-      runInAction(() => (this.loading = false));
+      runInAction(() => (this.loading = false))
     }
   }
 
@@ -144,27 +151,27 @@ abstract class BaseStore<D extends DomainBase = DomainBase> {
    * @param {function} onError - Função callback a ser executada em caso de error.
    * @returns {Promise<void>}
    */
-   @action
-   async get(
-     endpoint?: string | null,
-     onSuccess?: () => void,
-     onError = (error: Record<string, unknown>) => {}
-       // Utils.showMessageError(`Ao recuperar o registro ocorreu o erro: ${Utils.trataMensagemDeErro(error)}`)
-   ) {
-     this.loading = true;
-     try {
-       const response = await this.service.get(this.pathParams, endpoint);
-       runInAction(() => {
-         this.object = Reflect.construct(this.object.constructor, [response.data]);
-         onSuccess && onSuccess();
-       });
-     } catch (error) {
-       console.error(error);
-       onError && onError(error as Record<string, unknown>);
-     } finally {
-       runInAction(() => (this.loading = false));
-     }
-   }
+  @action
+  async get(
+    endpoint?: string | null,
+    onSuccess?: () => void,
+    onError = (error: Record<string, unknown>) => {}
+    // Utils.showMessageError(`Ao recuperar o registro ocorreu o erro: ${Utils.trataMensagemDeErro(error)}`)
+  ) {
+    this.loading = true
+    try {
+      const response = await this.service.get(this.pathParams, endpoint)
+      runInAction(() => {
+        this.object = Reflect.construct(this.object.constructor, [response.data])
+        onSuccess && onSuccess()
+      })
+    } catch (error) {
+      console.error(error)
+      onError && onError(error as Record<string, unknown>)
+    } finally {
+      runInAction(() => (this.loading = false))
+    }
+  }
 }
 
 export default BaseStore

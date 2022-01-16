@@ -1,13 +1,13 @@
-import { action, makeObservable, observable, runInAction } from 'mobx';
-import BaseStore from './BaseStore';
+import { action, makeObservable, observable, runInAction } from 'mobx'
+import BaseStore from './BaseStore'
 import UserService from '../services/user'
-import UserDomain from '../domains/user';
-import ToDoService from '../services/todo';
-import ListService from '../services/list';
-import CrudActionType from '../utils/CrudActionType';
+import UserDomain from '../domains/user'
+import ToDoService from '../services/todo'
+import ListService from '../services/list'
+import CrudActionType from '../utils/CrudActionType'
 
 class HomeStore extends BaseStore {
-  @observable lists
+  @observable lists = []
   @observable todos = {}
 
   constructor() {
@@ -21,26 +21,31 @@ class HomeStore extends BaseStore {
   }
 
   initializeData() {
-    return new UserDomain();
+    return new UserDomain()
   }
-  
-  init() {
-    this.getById(1, 'user', () => {}, () => {})
+
+  init(userId) {
+    this.getById(
+      userId,
+      'user',
+      () => {},
+      () => {}
+    )
   }
 
   @action
   getLists(userId) {
     this.loading = true
     UserService.get(this.pathParams, `user/${encodeURI(userId)}/list`)
-      .then(response => {
+      .then((response) => {
         runInAction(() => {
           this.loading = false
           if (response && response.data) {
-            this.lists = response.data            
+            this.lists = response.data
           }
         })
       })
-      .catch(error => {
+      .catch((error) => {
         runInAction(() => {
           this.loading = false
         })
@@ -51,7 +56,7 @@ class HomeStore extends BaseStore {
   getTodos(listId) {
     this.loading = true
     ToDoService.get(this.pathParams, `list/${encodeURI(listId)}/todo`)
-      .then(response => {
+      .then((response) => {
         runInAction(() => {
           this.loading = false
           if (response && response.data) {
@@ -59,7 +64,7 @@ class HomeStore extends BaseStore {
           }
         })
       })
-      .catch(error => {
+      .catch((error) => {
         runInAction(() => {
           this.loading = false
         })
@@ -70,7 +75,7 @@ class HomeStore extends BaseStore {
   deleteTodo(todoId) {
     this.loading = true
     ToDoService.delete(this.pathParams, `todo/${todoId}`)
-      .then(response => {
+      .then((response) => {
         runInAction(() => {
           this.loading = false
           if (response && response.data) {
@@ -78,7 +83,7 @@ class HomeStore extends BaseStore {
           }
         })
       })
-      .catch(error => {
+      .catch((error) => {
         runInAction(() => {
           this.loading = false
         })
@@ -89,13 +94,13 @@ class HomeStore extends BaseStore {
   toggleCheckedToDo(toDo) {
     this.loading = true
     try {
-       ToDoService.save(toDo, CrudActionType.UPDATE, this.pathParams, `todo`)
+      ToDoService.save(toDo, CrudActionType.UPDATE, this.pathParams, `todo`)
     } catch (error) {
       console.error(error)
     } finally {
       runInAction(() => {
         this.loading = false
-      });
+      })
     }
   }
 
@@ -103,7 +108,7 @@ class HomeStore extends BaseStore {
   deleteList(listId) {
     this.loading = true
     ListService.delete(this.pathParams, `list/${listId}`)
-      .then(response => {
+      .then((response) => {
         runInAction(() => {
           this.loading = false
           if (response && response.data) {
@@ -111,7 +116,7 @@ class HomeStore extends BaseStore {
           }
         })
       })
-      .catch(error => {
+      .catch((error) => {
         runInAction(() => {
           this.loading = false
         })

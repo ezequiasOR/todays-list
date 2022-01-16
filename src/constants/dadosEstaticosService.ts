@@ -4,8 +4,8 @@ const DadosEstaticosService = {
   },
 
   getURLServidorProd(): string {
-      return '';
-    },
+    return 'https://todo-ezequiasr.herokuapp.com'
+  },
 }
 
 export default DadosEstaticosService

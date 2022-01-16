@@ -1,6 +1,6 @@
-import { action, makeObservable } from "mobx";
-import ToDoDomain from "../domains/toDo";
-import BaseStore from "./BaseStore";
+import { action, makeObservable } from 'mobx'
+import ToDoDomain from '../domains/toDo'
+import BaseStore from './BaseStore'
 import ToDoService from '../services/todo'
 
 class ToDoStore extends BaseStore {
@@ -11,7 +11,7 @@ class ToDoStore extends BaseStore {
   }
 
   initializeData() {
-    return new ToDoDomain();
+    return new ToDoDomain()
   }
 
   @action

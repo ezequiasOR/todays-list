@@ -1,4 +1,4 @@
-import { makeObservable } from "mobx";
+import { makeObservable } from 'mobx'
 
 abstract class DomainBase {
   constructor() {
@@ -13,15 +13,13 @@ abstract class DomainBase {
    */
   setData(data: Record<string, unknown> = {}) {
     if (Object.keys(data).length !== 0) {
-      Reflect.ownKeys(data).forEach(property => {
+      Reflect.ownKeys(data).forEach((property) => {
         if (Reflect.has(this, property)) {
-          (this as Record<string, unknown>)[property as string] = data[property as string];
+          ;(this as Record<string, unknown>)[property as string] = data[property as string]
         }
-      });
+      })
     }
   }
-
-
 }
 
 export default DomainBase

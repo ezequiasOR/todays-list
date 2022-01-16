@@ -1,4 +1,4 @@
-import BaseStore from "./BaseStore";
+import BaseStore from './BaseStore'
 import UserDomain from '../domains/user'
 import UserService from '../services/user'
 
@@ -8,7 +8,7 @@ class UserStore extends BaseStore {
   }
 
   initializeData() {
-    return new UserDomain();
+    return new UserDomain()
   }
 }
 

@@ -1,11 +1,11 @@
-import React from 'react';
+import React from 'react'
 
-import { observer } from "mobx-react";
-import { Button, Col, Form, Input, Row } from 'antd';
-import { FormInstance } from 'antd/es/form';
-import UserStore from '../../stores/UserStore';
-import { LoginOutlined } from '@ant-design/icons';
-import { setUserSession } from '../../utils/Utils';
+import { observer } from 'mobx-react'
+import { Button, Col, Form, Input, Row } from 'antd'
+import { FormInstance } from 'antd/es/form'
+import UserStore from '../../stores/UserStore'
+import { LoginOutlined } from '@ant-design/icons'
+import { setUserSession } from '../../utils/Utils'
 
 @observer
 class SignInForm extends React.Component {
@@ -21,7 +21,10 @@ class SignInForm extends React.Component {
 
   onFinish = () => {
     this.store.login(
-      setUserSession,
+      async (token, user) => {
+        await setUserSession(token, user)
+        this.history.push('/')
+      },
       () => {},
       `signin`
     )
@@ -29,23 +32,18 @@ class SignInForm extends React.Component {
   }
 
   onReset = () => {
-    this.formRef.current!.resetFields();
-    this.history.push('/')
+    this.formRef.current!.resetFields()
   }
 
   render() {
     return (
-      <Form
-        layout="vertical"
-        onFinish={() => this.onFinish()}
-        ref={this.formRef}
-      >
+      <Form layout="vertical" onFinish={() => this.onFinish()} ref={this.formRef}>
         <Row>
-          <Col span={8} offset={8} >
-            <Form.Item label="Username" name={'username'} >
+          <Col span={8} offset={8}>
+            <Form.Item label="Username" name={'username'}>
               <Input
                 placeholder={'Type the username'}
-                onChange={value => 
+                onChange={(value) =>
                   this.store.updateAttributeDecoratorKeyEventValue('username', value)
                 }
               />
@@ -53,11 +51,11 @@ class SignInForm extends React.Component {
           </Col>
         </Row>
         <Row>
-          <Col span={8} offset={8} >
-            <Form.Item label="Password" name={'password'} >
+          <Col span={8} offset={8}>
+            <Form.Item label="Password" name={'password'}>
               <Input
                 placeholder={'Type the password'}
-                onChange={value => 
+                onChange={(value) =>
                   this.store.updateAttributeDecoratorKeyEventValue('password', value)
                 }
               />
@@ -65,21 +63,16 @@ class SignInForm extends React.Component {
           </Col>
         </Row>
         <Row>
-          <Col span={2} offset={8} >
+          <Col span={2} offset={8}>
             <Form.Item label=" ">
-              <Button
-                size={'large'}
-                type="primary"
-                htmlType="submit"
-                icon={<LoginOutlined />}
-              >
+              <Button size={'large'} type="primary" htmlType="submit" icon={<LoginOutlined />}>
                 Sign In
               </Button>
             </Form.Item>
           </Col>
         </Row>
       </Form>
-    );
+    )
   }
 }
 
