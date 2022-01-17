@@ -19,10 +19,6 @@ class Navbar extends React.Component {
     this.setState({ current: e.key })
   }
 
-  logout() {
-    removeUserSession()
-  }
-
   render() {
     const { current } = this.state
     return (
@@ -35,7 +31,7 @@ class Navbar extends React.Component {
             <Menu.Item key="profile" icon={<UserOutlined />}>
               <Link to="/profile">Profile</Link>
             </Menu.Item>
-            <Menu.Item key="logout" onClick={this.logout} icon={<LogoutOutlined />}>
+            <Menu.Item key="logout" onClick={removeUserSession} icon={<LogoutOutlined />}>
               <Link to="/signin">Logout</Link>
             </Menu.Item>
           </SubMenu>

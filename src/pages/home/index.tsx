@@ -212,7 +212,7 @@ class HomeIndex extends React.Component {
         },
         tableButtons,
       ]
-      debugger
+
       return (
         <div style={{ margin: '20px 10% 20px' }}>
           <Card
