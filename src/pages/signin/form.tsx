@@ -4,14 +4,14 @@ import { observer } from 'mobx-react'
 import { Button, Col, Form, Input, Row } from 'antd'
 import { FormInstance } from 'antd/es/form'
 import UserStore from '../../stores/UserStore'
-import { SaveFilled } from '@ant-design/icons'
-import CrudActionType from '../../utils/CrudActionType'
+import { LoginOutlined } from '@ant-design/icons'
+import { setUserSession } from '../../utils/Utils'
 
 @observer
-class SignUpForm extends React.Component {
+class SignInForm extends React.Component {
   formRef = React.createRef<FormInstance>()
   protected store
-  protected history
+  private history
 
   constructor(props) {
     super(props)
@@ -20,14 +20,15 @@ class SignUpForm extends React.Component {
   }
 
   onFinish = () => {
-    this.store.save(
-      CrudActionType.CREATE,
+    this.store.login(
+      async (token, user) => {
+        await setUserSession(token, user)
+        this.history.push('/')
+      },
       () => {},
-      () => {},
-      `signup`
+      `signin`
     )
     this.onReset()
-    this.history.push('/signin')
   }
 
   onReset = () => {
@@ -51,30 +52,6 @@ class SignUpForm extends React.Component {
         </Row>
         <Row>
           <Col span={8} offset={8}>
-            <Form.Item label="name" name={'name'}>
-              <Input
-                placeholder={'Type the name'}
-                onChange={(value) =>
-                  this.store.updateAttributeDecoratorKeyEventValue('name', value)
-                }
-              />
-            </Form.Item>
-          </Col>
-        </Row>
-        <Row>
-          <Col span={8} offset={8}>
-            <Form.Item label="E-mail" name={'email'}>
-              <Input
-                placeholder={'Type the email'}
-                onChange={(value) =>
-                  this.store.updateAttributeDecoratorKeyEventValue('email', value)
-                }
-              />
-            </Form.Item>
-          </Col>
-        </Row>
-        <Row>
-          <Col span={8} offset={8}>
             <Form.Item label="Password" name={'password'}>
               <Input
                 placeholder={'Type the password'}
@@ -88,8 +65,8 @@ class SignUpForm extends React.Component {
         <Row>
           <Col span={2} offset={8}>
             <Form.Item label=" ">
-              <Button size={'large'} type="primary" htmlType="submit" icon={<SaveFilled />}>
-                Sign Up
+              <Button size={'large'} type="primary" htmlType="submit" icon={<LoginOutlined />}>
+                Sign In
               </Button>
             </Form.Item>
           </Col>
@@ -99,4 +76,4 @@ class SignUpForm extends React.Component {
   }
 }
 
-export default SignUpForm
+export default SignInForm

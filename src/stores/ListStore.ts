@@ -1,6 +1,6 @@
-import { action, makeObservable } from "mobx";
-import ListDomain from "../domains/list";
-import BaseStore from "./BaseStore";
+import { action, makeObservable } from 'mobx'
+import ListDomain from '../domains/list'
+import BaseStore from './BaseStore'
 import ListService from '../services/list'
 
 class ListStore extends BaseStore {
@@ -11,13 +11,12 @@ class ListStore extends BaseStore {
   }
 
   initializeData() {
-    return new ListDomain();
+    return new ListDomain()
   }
 
   @action
   init(list) {
     this.object = new ListDomain(list)
-
   }
 }
 

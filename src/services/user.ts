@@ -1,4 +1,4 @@
-import ServiceBase from "./serviceBase"
+import ServiceBase from './serviceBase'
 
 class UserService extends ServiceBase {
   constructor() {
@@ -6,4 +6,4 @@ class UserService extends ServiceBase {
   }
 }
 
-export default  new UserService()
+export default new UserService()

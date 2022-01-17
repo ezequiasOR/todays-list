@@ -1,5 +1,5 @@
-import { makeObservable, observable } from 'mobx';
-import DomainBase from './DomainBase';
+import { makeObservable, observable } from 'mobx'
+import DomainBase from './DomainBase'
 
 class ToDoDomain extends DomainBase {
   @observable id
@@ -7,7 +7,7 @@ class ToDoDomain extends DomainBase {
   @observable listId
   @observable dtToDo
   @observable completed = false
-  
+
   constructor(data?: Record<string, number>) {
     super()
     makeObservable(this)
@@ -17,4 +17,4 @@ class ToDoDomain extends DomainBase {
   }
 }
 
-export default ToDoDomain;
+export default ToDoDomain

@@ -1,26 +1,38 @@
 import React from 'react'
 import { observer } from 'mobx-react'
-import HomeStore from '../../stores/HomeStore';
-import { Button, Card, Checkbox, Col, Collapse, Dropdown, Menu, Row, Spin, Table, Tooltip } from 'antd';
-import FormToDo from './FormToDo/formToDo';
-import FormList from './FormList/formList';
+import HomeStore from '../../stores/HomeStore'
+import {
+  Button,
+  Card,
+  Checkbox,
+  Col,
+  Collapse,
+  Dropdown,
+  Menu,
+  Row,
+  Spin,
+  Table,
+  Tooltip,
+} from 'antd'
+import FormToDo from './FormToDo/formToDo'
+import FormList from './FormList/formList'
 import './index.css'
-import { EditOutlined, DeleteOutlined, MenuOutlined } from '@ant-design/icons';
-import { getValueDate } from '../../utils/Utils';
+import { EditOutlined, DeleteOutlined, MenuOutlined } from '@ant-design/icons'
+import { getUser, getValueDate } from '../../utils/Utils'
 
 @observer
 class HomeIndex extends React.Component {
-  protected store;
-  protected contentList;
+  protected store
+  protected contentList
   protected userId
   protected toDoEdit
   protected listEdit
 
   state = {
     key: 'addTodo',
-    refresh: false
-  };
-  
+    refresh: false,
+  }
+
   tabList = [
     {
       key: 'addTodo',
@@ -29,29 +41,29 @@ class HomeIndex extends React.Component {
     {
       key: 'addList',
       tab: 'Add List',
-    }
-  ];
+    },
+  ]
 
   constructor(props) {
     super(props)
     this.store = new HomeStore()
-    this.userId = props.userId
+    this.userId = getUser()?.id
     this.store.getLists(this.userId)
   }
 
   componentDidMount() {
-    this.store.init()
+    this.store.init(this.userId)
     this.store.getLists(this.userId)
   }
 
   onTabChange = (key, type) => {
-    this.setState({ [type]: key });
-  };
-  
+    this.setState({ [type]: key })
+  }
+
   listOptions = (list) => {
     return (
       <Menu>
-        <Menu.Item key="editList" icon={<EditOutlined />} onClick={() => this.editList(list)} >
+        <Menu.Item key="editList" icon={<EditOutlined />} onClick={() => this.editList(list)}>
           Edit list
         </Menu.Item>
         <Menu.Item
@@ -70,7 +82,7 @@ class HomeIndex extends React.Component {
     <Dropdown overlay={this.listOptions(listId)}>
       <MenuOutlined />
     </Dropdown>
-  );
+  )
 
   buildProps(toDoEdit = {}, listEdit = {}) {
     return {
@@ -79,20 +91,20 @@ class HomeIndex extends React.Component {
       homeIndex: this,
       userId: this.userId,
       toDoObj: toDoEdit,
-      listObj: listEdit
+      listObj: listEdit,
     }
   }
 
   returnLists(data) {
     const lists = [{}]
     if (data) {
-      data.forEach(list => {
+      data.forEach((list) => {
         const obj = {
           value: list.id,
-          label: list.name
+          label: list.name,
         }
         lists.push(obj)
-      });
+      })
     } else {
       return lists
     }
@@ -102,7 +114,7 @@ class HomeIndex extends React.Component {
 
   getToDosForEachList(key, store) {
     if (key) {
-      key.forEach(k => {
+      key.forEach((k) => {
         const listId = k.split('-')[0]
         store.getTodos(listId)
       })
@@ -110,51 +122,53 @@ class HomeIndex extends React.Component {
   }
 
   toggleChecked(toDo, store) {
-    this.setState({ refresh: !this.state.refresh });
+    this.setState({ refresh: !this.state.refresh })
     toDo.completed = !toDo.completed
     store.toggleCheckedToDo(toDo)
-  };
+  }
 
   editTodo(toDo) {
     this.toDoEdit = toDo
-    this.setState({ key: 'addList' });
+    this.setState({ key: 'addList' })
   }
-  
+
   editList(list) {
     this.listEdit = list
-    this.setState({ key: 'addList' });
+    this.setState({ key: 'addList' })
   }
 
   resetTodo() {
     this.toDoEdit = undefined
-    this.setState({ key: 'addList' });
+    this.setState({ key: 'addList' })
   }
 
   resetList() {
     this.listEdit = undefined
-    this.setState({ key: 'addTodo' });
+    this.setState({ key: 'addTodo' })
   }
 
   render() {
-    const { Panel } = Collapse;
+    const { Panel } = Collapse
     if (this.store.object && this.store.object.id) {
       this.contentList = {
         addTodo: <FormToDo {...this.buildProps(this.toDoEdit)} />,
         addList: <FormList {...this.buildProps(undefined, this.listEdit)} />,
-      };
+      }
 
       const tableButtons = {
         title: '',
         dataIndex: '',
         width: '90px',
-        render: row => {
+        render: (row) => {
           return (
             <>
               <Row gutter={8}>
                 <Col>
                   <Tooltip title="Edit">
                     <Button
-                      onClick={() => {this.editTodo(row)}}
+                      onClick={() => {
+                        this.editTodo(row)
+                      }}
                       icon={<EditOutlined />}
                     />
                   </Tooltip>
@@ -171,32 +185,33 @@ class HomeIndex extends React.Component {
               </Row>
             </>
           )
-        }
+        },
       }
-  
+
       const columns = [
         {
           title: '',
           dataIndex: '',
           width: '5px',
-          render: row => (
+          render: (row) => (
             <Checkbox
               checked={row.completed}
               onChange={() => this.toggleChecked(row, this.store)}
             />
-          )
+          ),
         },
         {
           title: 'To-Do',
           dataIndex: 'description',
-        }, {
+        },
+        {
           title: 'Date/Hour',
           dataIndex: 'dtToDo',
           width: '150px',
-          render: date => getValueDate(date)
+          render: (date) => getValueDate(date),
         },
-        tableButtons
-      ];
+        tableButtons,
+      ]
 
       return (
         <div style={{ margin: '20px 10% 20px' }}>
@@ -204,8 +219,8 @@ class HomeIndex extends React.Component {
             style={{ margin: '20px 20px 0px' }}
             tabList={this.tabList}
             activeTabKey={this.state.key}
-            onTabChange={key => {
-              this.onTabChange(key, 'key');
+            onTabChange={(key) => {
+              this.onTabChange(key, 'key')
             }}
           >
             {this.contentList[this.state.key]}
@@ -214,7 +229,7 @@ class HomeIndex extends React.Component {
             return (
               <Collapse
                 key={`collapse-${list.id}`}
-                style={{margin: '20px 20px 0px'}}
+                style={{ margin: '20px 20px 0px' }}
                 onChange={(key) => this.getToDosForEachList(key, this.store)}
                 expandIconPosition={'right'}
               >
@@ -223,11 +238,7 @@ class HomeIndex extends React.Component {
                   key={`${list.id}-${list.name}`}
                   extra={this.listExtra(list)}
                 >
-                  <Table
-                    columns={columns}
-                    dataSource={this.store.todos[list.id]}
-                    size="small"
-                  />
+                  <Table columns={columns} dataSource={this.store.todos[list.id]} size="small" />
                 </Panel>
               </Collapse>
             )
