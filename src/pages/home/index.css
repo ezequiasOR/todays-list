@@ -1,0 +1,15 @@
+.ant-collapse-content > .ant-collapse-content-box {
+  padding: 16px 16px 2px !important;
+}
+
+.ant-table-pagination.ant-pagination {
+  margin: 14px 0px 10px !important;
+}
+
+.ant-spin-spinning {
+  display: block !important;
+  position: fixed !important;
+  z-index: 1031 !important;
+  top: 50% !important;
+  right: 50% !important;
+}
